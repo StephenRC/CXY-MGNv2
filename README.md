@@ -1,5 +1,5 @@
 # CXY-MSNv2
 
-# This is incomplete and a work in progress.  Not all of the parts have even been printed!!
+# This is a work in progress.
 
 A CoreXY printer using MGN12 rails and aluminum channel from a hardware store.
