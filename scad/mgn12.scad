@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // mgn12.scad - corexy with mgn12 rails
 // created: 10/31/2016
-// last modified: 12/1/2016
+// last modified: 12/7/2016
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Printer name: CXY-MGNv2
 // Colors are for making it easier to edit the correct bits
@@ -27,6 +27,10 @@
 // 11/28/16 - Made lower brackets shorter and rotated verticals to match the uppers.
 // 11/29/16 - Made motor upper brackets shorter.
 // 12/1/16  - Tuned bearing positions.  Made xy_bearing_mounts longer to support the x-axis better.
+// 12/2/16  - Added built in support for extended al slot in xy_bearing_mounts and labeled L & R.
+// 12/7 /16 - Labeled motor upper brackets & motor mounts L & R.  Changed the angled supports on the corner brackets
+//			  to open braces.
+// 12/8/16  - Changed all wades mounts to mount with the mgn on top.
 //---------------------------------------------------------------------------------------------------------------------
 // NOTES:
 // Some of the parts need support added in the slicer.
@@ -34,15 +38,13 @@
 // The printed angled_brackets() may be replaced by angled aluminum, slot in the corner and bend one side accordingly
 // and use two screws at each end
 // Blower fan mounts are in blower.scad, blower fan nozzle in fanduct.scad
-// On the belt drive part, it may need the bottom edge filed down to have the other part fit at 90 degrees.
 // The v3 motor upper mounts use three M5 screws and two of them go through the aluminum u-channel.
+// Remove the built in support for extended al slot in xy_bearing_mounts after printing.
+// X & Y enstops mount directly on the aluminum holding the mgn rail.
 //--------------------------------------------------------------------------------------------------------------------
 // THINGS TO DO:
 // Check & adjust z on dual bowden e3dv6 mount, ir not needed on second mount
-// May need to adjust xy-bracket belt bearing height and motor & idler upper brackets
-// Add endstop mounts
-// May need a support bracket for bearing stack on idler_upper_brackets()
-// Need adjustable ir mount length for bowden
+// Need adjustable ir mount length for bowden & wades
 // IDEX
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 include <inc/screwsizes.scad>
@@ -55,7 +57,6 @@ $fn=50;
 puck_l = 45.4;	// length of mgn12h
 puck_w = 27;	// width of mgn12h
 hole_sep = 20;	// distance between mouning holes on mgn12h
-thickness = 7;	// thickness of base that mounts on the mgn12h
 mgn_fh = 13;	// full height of mgn12h & rail assembly
 mgn_rh = 8;		// height of mgn12 rail
 mgn_rw = 12;	// width of mgn12 rail
@@ -192,9 +193,7 @@ nut3 = 6.2;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-plate(0);
-//test_motor_upper_brackets_v2();
-//test_z_axis();
+plate(9);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -213,64 +212,101 @@ module plate(WhichOne) { // the modules called here are the current versions use
 	}
 	//-------------------------------------------------------------------------------------------------------------
 	if(WhichOne == 3) {
-		motor_upper_brackets_v3(0);	// 0 - both, 1 - lower belt, 2 - upper belt, 3 - both motor mounts only
+		motor_upper_brackets_v3(0);	// 0 - both, 1 - lower belt (R), 2 - upper belt (L), 3 - both motor mounts only
 	}
 	//-------------------------------------------------------------------------------------------------------------
 	if(WhichOne == 4) {
-		idler_upper_brackets_v2(idler_upper_spacer_height);
+		idler_upper_brackets_v2(0);
 	}
 	//-------------------------------------------------------------------------------------------------------------
 	if(WhichOne == 5) {
+		idler_bracket_support();
+		translate([40,0,0]) idler_bracket_support();
+	}
+	//-------------------------------------------------------------------------------------------------------------
+	if(WhichOne == 6) {
 		tapered_bearspacer(idler_upper_spacer_height);
 		translate([25,0,0]) tapered_bearspacer(idler_upper_spacer_height);
 	}
 	//-------------------------------------------------------------------------------------------------------------
-	if(WhichOne == 6) {
+	if(WhichOne == 7) {
 		angled_brackets(4,1); // Qty; 0 = al angle to square or 1 = square to square
 	}
 	//-------------------------------------------------------------------------------------------------------------
-	if(WhichOne == 7) {
+	if(WhichOne == 8) {
 		x_carriage_titan_belt();
 	//-------------------------------------------------------------------------------------------------------------
 	}
-	if(WhichOne == 8) {
+	if(WhichOne == 9) {
 		x_carriage_e3dv6_bowden_belt(1,0);
 		translate([40,40,0]) bowden_titan();
 	}
 	//-------------------------------------------------------------------------------------------------------------
-	if(WhichOne == 9) {
+	if(WhichOne == 10) {
 		x_carriage_wades_belt(3);	// for BLTouch: 0 = top mounting through hole, 1 - recess mount
 									// 2 - proximity sensor hole in psensord size
-									// 3 - dc42's ir sensor
-									// 4 or higher = none
-	}
-	//-------------------------------------------------------------------------------------------------------------
-	if(WhichOne == 10) {
-		beltclamp();
+									// 3 or higher = none
 	}
 	//-------------------------------------------------------------------------------------------------------------
 	if(WhichOne == 11) {
-		z_nut_carriers(); // add arg of 1 for just one; defaults to two carriers
+		beltclamp();
 	}
 	//-------------------------------------------------------------------------------------------------------------
 	if(WhichOne == 12) {
-		z_belt_motor_v2(1,0,0);
+		z_nut_carriers(); // add arg of 1 for just one; defaults to two carriers
 	}
 	//-------------------------------------------------------------------------------------------------------------
 	if(WhichOne == 13) {
-		z_axis_brackets_bearing(); // 0 - one bracket; no arg defaults to two
+		z_belt_motor_v2(1,0,0);
 	}
 	//-------------------------------------------------------------------------------------------------------------
 	if(WhichOne == 14) {
+		z_axis_brackets_bearing(); // 0 - one bracket; no arg defaults to two
+	}
+	//-------------------------------------------------------------------------------------------------------------
+	if(WhichOne == 15) {
 		z_axis_brackets_2();
 	}
 	//-------------------------------------------------------------------------------------------------------------
-	if(WhichOne == 15) { // dual hotend setup
+	if(WhichOne == 16) { // dual hotend setup
 		x_carriage_e3dv6_bowden_belt(1,1,0);	// third arg moves second mount up/down, if down(-), supports are
 		translate([0,40,0]) bowden_titan();		// to print the dual mount, this hasn't been fully tested
 	}
 	//-------------------------------------------------------------------------------------------------------------
-	if(WhichOne > 15) echo("Oops! Plate Number too high");
+	if(WhichOne > 16) echo("Oops! Plate Number too high");
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+nozzle = 0.5;
+
+module idler_bracket_support() {	// needs support in slicer
+	translate([6,0,0]) color("red") cubeX([sq_w-2,thickness,(one_stack*2)+idler_upper_spacer_height+thickness],2);
+	difference() {	// base
+		translate([0,-(f625z_d+thickness+5)-5,0]) color("grey")  cubeX([sq_w+10,85,thickness],2);
+		translate([(sq_w+10)/2,46.5,-2]) cylinder(h=thickness*2,d=screw5);
+		translate([(sq_w+10)/2,-(f625z_d+2),-2]) cylinder(h=thickness*2,d=screw5);
+	}
+	difference() {	// top
+		translate([6,-(f625z_d+thickness+5),(one_stack*2)+idler_upper_spacer_height])
+			color("pink") cubeX([sq_w-2,f625z_d+thickness*3,thickness],2);
+		translate([(sq_w+10)/2,-(f625z_d+2),(one_stack*2)+idler_upper_spacer_height-2]) cylinder(h=thickness*2,d=screw5);
+	}
+	idler_s();	// angled support wall
+	translate([(sq_w+10)/2,-(f625z_d+thickness-3),0]) tapered_bearspacer(idler_upper_spacer_height);
+	translate([(sq_w+10)/2,-(f625z_d+thickness-3),(one_stack*2)+idler_upper_spacer_height-3]) bearspacer(4);
+	//  test fit two one_stack sets minus 3mm for the extra washers in the var
+	//translate([(sq_w+10)/2,-(f625z_d+thickness-6),(one_stack*2)+idler_upper_spacer_height-23.6])
+	//	cylinder(h=one_stack*2-3,d=screw8);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+module idler_s() {
+	difference() {
+		translate([(sq_w+10)/2-thickness/2,0,-40]) rotate([45,0,0]) color("blue") cubeX([thickness,60,60]);
+		translate([8,-18,-55]) cube([thickness*2,60,60]);
+		translate([8,-58,-25]) cube([thickness*2,60,70]);
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -287,7 +323,7 @@ module single_lower_bracket_v2() {
 		union() {
 			color("grey") cubeX([sq_w+10,60,sq_d+10],2);
 			color("lightgrey") cubeX([60,sq_w+10,sq_d+10],2);
-			upper_bracket_support();
+			upper_bracket_support(0);
 		}
 		translate([100,100,-0.5]) rotate([0,0,180]) al_sq_slots();
 	}
@@ -295,7 +331,7 @@ module single_lower_bracket_v2() {
 		translate([0,23.3,0]) rotate([90,0,0]) union() {
 			color("grey") cubeX([sq_d+10,60,sq_d+10],2);
 			color("lightgrey") cubeX([60,sq_d+10,sq_d+10],2);
-			upper_bracket_support();
+			upper_bracket_support(0);
 		}
 		translate([100,100,-0.5]) rotate([0,0,180]) al_sq_slots();
 	}
@@ -303,7 +339,7 @@ module single_lower_bracket_v2() {
 		translate([0,0,0]) rotate([90,0,90]) union() {
 			color("grey") cubeX([sq_d+10,60,sq_d+10],2);
 			color("lightgrey") cubeX([60,sq_d+10,sq_d+10],2);
-			upper_bracket_support();
+			upper_bracket_support(0);
 		}
 		translate([100,100,-0.5]) rotate([0,0,180]) al_sq_slots();
 	}
@@ -327,32 +363,6 @@ module idler_upper_brackets_v2(Spacer_H = 0) {
 	}
 	if(Spacer_H) translate([80,-13,0]) tapered_bearspacer(Spacer_H);
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-module motor_upper_brackets_v2(Select=0) { // 0 - both, 1 - lower belt, 2 - upper belt
-	if(Select==0 || Select==1) {
-		translate([0,0,10.5]) {
-			single_upper_bracket_v2();
-			translate([100,98,0]) rotate([0,0,-180]) {
-				translate([90,124.5,-(mgn_rh)]) motor_mount();
-				translate([98,79,9]) cubeX([21.5,20,20],2);
-				diag_side3();
-				translate([45,0,4]) diag_side4();
-			}
-		}
-	}
-	if(Select==0 || Select==2) {
-		translate([250,0,20.5]) {
-			translate([-40,0,0]) rotate([0,0,90]) single_upper_bracket_v2();
-			translate([-150,98,0]) rotate([0,0,-180]) {
-				translate([-95.5,124.5,-(mgn_rh+10)]) motor_mount();
-				translate([-125,74.7,6]) cubeX([18,25,15],2);
-				diag_side2();
-				translate([-40,4,3]) diag_side1();
-			}
-		}
-	}
-}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -361,7 +371,7 @@ module single_upper_bracket_v2() { // for the horizontal square to vertical squa
 		union() {
 			color("grey") cubeX([sq_w+10,60,sq_d+10],2);
 			color("lightgrey") cubeX([60,sq_w+10,sq_d+10],2);
-			upper_bracket_support();
+			upper_bracket_support(0);
 		}
 		translate([100,100,-0.5]) rotate([0,0,180]) al_sq_slots2();
 	}
@@ -369,7 +379,7 @@ module single_upper_bracket_v2() { // for the horizontal square to vertical squa
 		translate([0,23.3,0]) rotate([90,0,0]) union() {
 			color("grey") cubeX([sq_d+10,60,sq_d+10],2);
 			color("lightgrey") cubeX([60,sq_d+10,sq_d+10],2);
-			upper_bracket_support();
+			upper_bracket_support(0);
 		}
 		translate([100,100,-0.5]) rotate([0,0,180]) al_sq_slots2();
 	}
@@ -377,7 +387,7 @@ module single_upper_bracket_v2() { // for the horizontal square to vertical squa
 		translate([0,0,0]) rotate([90,0,90]) union() {
 			color("grey") cubeX([sq_d+10,60,sq_d+10],2);
 			color("lightgrey") cubeX([60,sq_d+10,sq_d+10],2);
-			upper_bracket_support();
+			upper_bracket_support(0);
 		}
 		translate([100,100,-0.5]) rotate([0,0,180]) al_sq_slots2();
 	}
@@ -385,11 +395,21 @@ module single_upper_bracket_v2() { // for the horizontal square to vertical squa
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-module upper_bracket_support() {
-	difference() {
-		translate([16,-69,(sq_d+10)/2-thickness/2]) rotate([0,0,45]) color("cyan") cubeX([92,92,thickness],2);
-		translate([-18,-113,(sq_d+10)/2-thickness/2-1]) cube([120,120,thickness+2]);
-		translate([-110,-40,(sq_d+10)/2-thickness/2-1]) cube([120,140,thickness+2]);
+module upper_bracket_support(Solid=0) {	// angled supports
+	if(Solid) {
+		difference() {
+			translate([16,-69,(sq_d+10)/2-thickness/2]) rotate([0,0,45]) color("cyan") cubeX([92,92,thickness],2);
+			translate([-18,-113,(sq_d+10)/2-thickness/2-1]) cube([120,120,thickness+2]);
+			translate([-110,-40,(sq_d+10)/2-thickness/2-1]) cube([120,140,thickness+2]);
+		}
+	} else {
+		difference() {
+			translate([75,-4,(sq_d+10)/2-thickness/2]) rotate([0,0,45]) color("cyan") cubeX([10,85,thickness],2);
+			translate([-18,-99,(sq_d+10)/2-thickness/2-1]) cube([120,120,thickness+2]);
+			translate([-98,-40,(sq_d+10)/2-thickness/2-1]) cube([120,140,thickness+2]);
+			translate([59,18,(sq_d+10)/2-thickness/2-1]) cube([10,10,thickness+2]);
+			translate([18,59,(sq_d+10)/2-thickness/2-1]) cube([10,10,thickness+2]);
+		}
 	}
 }
 
@@ -492,27 +512,36 @@ module z_al_sq_slots() { // square al slots
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 module x_carriage_wades_belt(Type=4) {
-	translate([0,0,30]) rotate([-90,0,0]) difference() {
-		rotate([0,0,0]) x_carriage_wades(Type,10);
-		x_carriage_belt_mountscrews(-21,30,15);
+	x_carriage_wades(Type,10);
+	translate([17,35,-4]) x_carriage_belt3();
+	//translate([35,10,0]) beltclamp();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+module x_carriage_belt3() {
+	difference() {
+		translate([5,-24,5]) x_carriage_belt2(-45,10,0);
+		translate([-40.5,-4,3]) main_base_mounting();
 	}
 	difference() {
-		x_carriage_belt(-20.3,30,0);
-		translate([-22.7,30,-13.5]) rotate([90,0,0]) main_base_mounting();
+		translate([-40,-14,0]) color("red") cubeX([45.5,40,wall+1],2);
+		translate([-40.5,-4,3]) main_base_mounting();
 	}
-	translate([35,10,0]) beltclamp();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 module x_carriage_titan_belt() {
-	x_carriage_titan();
+	translate([-7.9,-34,4]) titan();
 	difference() {
-		translate([-puck_l,-thickness,31]) cubeX([puck_l,thickness,12],2);
-		translate([-puck_l,0,8]) rotate([90,0,0]) main_base_mounting();
-		x_carriage_belt_mountscrews(-puck_l+1.5,0,35);
+		translate([5,-24,5]) x_carriage_belt2(-45,10,0);
+		translate([-40.5,-4,3]) main_base_mounting();
 	}
-	x_carriage_belt(-45,10,0);
+	difference() {
+		translate([-40,-14,0]) color("red") cubeX([45.5,40,wall+1],2);
+		translate([-40.5,-4,3]) main_base_mounting();
+	}
 	translate([40,-70,0]) beltclamp();
 }
 
@@ -624,13 +653,6 @@ module x_carriage_wades(recess=0,Length=0) // bolt-on extruder platform, works f
 			translate([0,10,-6]) cylinder(h=wall*2,r=psensord/2,$fn=50);
 		}
 	}
-	if(recess == 3) { // dc42's ir sensor mount
-		difference() {
-			translate([irmount_width/2,5,0]) rotate([90,0,180]) iradapter();
-			translate([-puck_l/2,widthE/2-7.5,-puck_w/2]) rotate([90,0,0]) main_base_mounting();
-		}
-	}
-	translate([-puck_l/2,widthE/2-7.5,-puck_w/2]) rotate([90,0,0]) main_base(Length);
 }
 
 
@@ -684,8 +706,7 @@ module xy_bearing_mounts() {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 module single_xy_bearing_mount(Side=0,YEndStop=0) {
-	translate([0,-puck_w-7,-thickness]) { //mgn_fh]) {
-		//translate([45.5,0,-39]) rotate([0,180,0]) main_base(8,-7.4);
+	translate([0,-puck_w-7,-thickness]) {
 		main_base(13,-7.4,0);
 		difference() {
 			translate([(puck_l/2)-((sq_w+10)/2),(puck_w/2)-((sq_d+10)/2),1]) al_mount();
@@ -698,11 +719,11 @@ module single_xy_bearing_mount(Side=0,YEndStop=0) {
 	}
 	translate([(puck_l-bearing_bracket_width)/2,puck_w+8,5]) rotate([180,0,0]) b_mount(Side,0);
 	if(Side) {
-		translate([4,-1,-1.5]) rotate([0,-90,0]) printchar("L");
+		translate([10,-22,10]) rotate([0,-90,0]) printchar("L",2,5);
 		translate([33,34.75,-1.5]) rotate([0,90,90]) printchar("U");
 		translate([16,34.75,-1.5]) rotate([0,90,90]) printchar("D");
 	} else {
-		translate([4,-1,-1.5]) rotate([0,-90,0]) printchar("R");
+		translate([10,-22,10]) rotate([0,-90,0]) printchar("R",2,5);
 		translate([33,34.75,-1.5]) rotate([0,90,90]) printchar("U");
 		translate([16,34.75,-1.5]) rotate([0,90,90]) printchar("D");
 	}
@@ -732,7 +753,7 @@ module al_mount() { // holds x-axis to y-axis slider
 		color("red") translate([5,5,-1]) cube([sq_w,sq_d,35]);
 	}
 	translate([0,0,22]) difference() { // extra support of x-axis
-		color("green") cubeX([sq_w+10,sq_d+4.5,36],2);
+		color("green") cubeX([sq_w+10,sq_d+5.3,36],2);
 		color("red") translate([5,5,-1]) cube([sq_w,sq_d,40]);
 		color("blue") translate([-5,puck_w/2-2,10+thickness/2]) rotate([0,90,0]) cylinder(h=sq_w+20,d=screw3);
 	}
@@ -925,31 +946,6 @@ module al_sq_slots2() { // square al slots
 	color("Green") translate([104.5-sq_w,105-sq_w,80.5]) cube([sq_d,sq_w,150],true); //vert
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-module motor_upper_brackets() {
-	translate([0,0,12.5]) {
-		difference() {
-			single_upper_bracket();
-			translate([73,-42,-4.3]) cube([mgn_rw+2*mgn_oh+1,120,10]);
-		}
-		translate([90,124.5,-(mgn_rh+10)]) motor_mount();
-		translate([98,79,9]) cubeX([21.5,20,20],2);
-		diag_side3();
-		translate([45,0,8]) diag_side3();
-	}
-	translate([0,0,22.5]) {
-		difference() {
-			translate([-10,0,0]) rotate([0,0,90]) single_upper_bracket();
-			translate([-110.5,-42,-4.3]) cube([mgn_rw+2*mgn_oh+1,120,10]);
-		}
-		translate([-95.5,125.2,-(mgn_rh+20)]) motor_mount();
-		translate([-125,75.7,6]) cubeX([18,25,15],2);
-		diag_side2();
-		translate([-40,4,3]) diag_side2();
-	}
-}
-
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 module diag_side4() {
@@ -1093,9 +1089,9 @@ module angled_brackets(Qty=4,Typ=0) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 module x_carriage_titan() {
-	translate([0,0,puck_w+thickness/2+5.5]) rotate([-90,0,180]) main_base(4);
-	translate([-puck_l,-(thickness*3),0]) color("blue") cubeX([puck_l,thickness*3,wall],2);
-	translate([-5,-21,3]) color("pink") cubeX([5,thickness*4.2,puck_w+5],2);
+	translate([0,18,0]) rotate([0,0,180]) main_base(5);
+	//translate([-puck_l,-(thickness*3),0]) color("blue") cubeX([puck_l,thickness*3,wall],2);
+	//translate([-5,-21,3]) color("pink") cubeX([5,thickness*4.2,puck_w+5],2);
 	translate([-7.9,-40,4]) titan();
 }
 
@@ -1225,31 +1221,10 @@ module bearing_bracket(TapIt=0,Ypos = b_posY) {
 		cubeX([24,30,sq_d+10],2);
 		if(TapIt)
 			translate([Ypos,b_posX,-2]) cylinder(h=50,r=screw5t/2);
-		else
+		else {
 			translate([Ypos,b_posX,-2]) cylinder(h=50,r=screw5/2);
-		if(!TapIt) translate([Ypos,b_posX,-b_height-20]) cylinder(h=50,d=nut5_d,$fn=6); // nut hole
-	}
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////
-
-module bearing_support() {	// keep the bearing from tilting on the bracket
-	difference() { // vertical
-		translate([-1,-10,0]) cubeX([Vthickness,40,one_stack*2+b_height+43],2); // vertical
-		translate([-3,0,10]) rotate([0,90,0]) cylinder(h=20,d=screw5); // screw mounting holes
-		translate([-3,20,10]) rotate([0,90,0]) cylinder(h=20,d=screw5);
-		translate([-3,0,30]) rotate([0,90,0]) cylinder(h=20,d=screw5);
-		translate([-3,20,30]) rotate([0,90,0]) cylinder(h=20,d=screw5);
-		if(NotchIt)	translate([Vthickness+3,-40,33]) rotate([0,0,90]) ms_notch(); // notch it?
-	}
-	difference() { // top
-		translate([0,0,one_stack*2+b_height+38]) cubeX([50,20,Tthickness],2);
-		translate([Vthickness+28,10,one_stack*2+b_height]) cylinder(h=50,d=screw5);
-	}
-	difference() { // angled support for top
-		translate([-11,8,one_stack*2+b_height+30]) rotate([0,45,0]) cubeX([20,Tthickness,45],2);
-		translate([-19,7,one_stack*2+b_height+10]) cube([20,7,40]);
-		translate([-4,7,one_stack*2+b_height+42]) cube([40,7,25]);
+			translate([Ypos,b_posX,-b_height-23]) cylinder(h=50,d=nut5_d,$fn=6); // nut hole
+		}
 	}
 }
 
@@ -1750,7 +1725,7 @@ module iradapter(Top) {  // ir sensor bracket stuff is from irsensorbracket.scad
 		block_mount();
 		recess();
 	}
-	ir_supports();
+	//ir_supports();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1988,25 +1963,13 @@ module test_z_axis() {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-module test_motor_upper_brackets_v2() { // lop off sections for printing a test fit piece
-	rotate([-90,0,0])
-		difference() {
-			motor_upper_brackets_v2();
-			translate([-30,9,0]) cube([300,300,300]);
-			translate([-30,-5,60]) cube([300,300,300]);
-			translate([60,-5,0]) cube([90,30,300]);
-			translate([-30,-80,-5]) cube([300,60,100]);
-		}
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 module motor_upper_brackets_v3(Select=0) { // 0 - both, 1 - lower belt, 2 - upper belt, 3 - both motor mounts only
 	if(Select==0 || Select==1) {
 		difference() {
 			union() {
 				single_upper_bracket_v2();
 				translate([-17,0,0]) cubeX([21.5,20,sq_d+10],2);
+				translate([-16.5,8,15]) rotate([90,180,-90]) printchar("R",2,5);
 			}
 			translate([12.5,-29,0]) rotate([0,0,-180]) motor_mount_v3_screws(0);
 		}
@@ -2017,6 +1980,7 @@ module motor_upper_brackets_v3(Select=0) { // 0 - both, 1 - lower belt, 2 - uppe
 			union() {
 				translate([140,0,0]) rotate([0,0,90]) single_upper_bracket_v2();
 				translate([136,0,0]) cubeX([21.5,20,sq_d+10],2);
+				translate([157,12,15]) rotate([90,180,90]) printchar("L",2,5);
 			}
 			translate([128,-29,0]) rotate([0,0,-180]) motor_mount_v3_screws(1);
 		}
@@ -2031,8 +1995,8 @@ module motor_upper_brackets_v3(Select=0) { // 0 - both, 1 - lower belt, 2 - uppe
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-module motor_mount_v3(Side=0) {
-	if(!Side) {
+module motor_mount_v3(Left=0) {
+	if(!Left) { // right
 		difference() {
 			cubeX([59,59,5],radius=2,center=true);
 			translate([0,0,-4]) rotate([0,0,45])  NEMA17_x_holes(7, 2);
@@ -2040,52 +2004,58 @@ module motor_mount_v3(Side=0) {
 		diag_side();
 		difference() {
 			translate([0,-27,23+mgn_rh/2]) color("blue") cubeX([59,5,48+mgn_rh],radius=2,center=true);
-			translate([0,0,mgn_rh]) motor_mount_v3_screws(Side);
+			translate([0,0,mgn_rh]) motor_mount_v3_screws(Left);
 		}
-	} else {
+		translate([0,-25,20]) rotate([-90,0,0]) printchar("R",2,5);
+	} else { // left
 		difference() {
 			cubeX([59,59,5],radius=2,center=true);
 			translate([0,0,-4]) rotate([0,0,45])  NEMA17_x_holes(7, 2);
 		}
 		difference() {
 			diag_side();
-			translate([0,0,mgn_rh+10]) motor_mount_v3_screws(Side);
+			translate([0,0,mgn_rh+10]) motor_mount_v3_screws(Left);
 		}
 		difference() {
 			translate([0,-27,30+mgn_rh/2]) color("blue") cubeX([59,5,65+mgn_rh],radius=2,center=true);
-			translate([0,0,mgn_rh+10]) motor_mount_v3_screws(Side);
+			translate([0,0,mgn_rh+10]) motor_mount_v3_screws(Left);
 		}
+		translate([0,-25,30]) rotate([-90,0,0]) printchar("L",2,5);
 	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-module motor_mount_v3_screws(Side) {
-	if(!Side) {
+module motor_mount_v3_screws(Left,Closed=0) {
+	if(!Left) {
 		translate([20,8,(sq_d+10)/2]) rotate([90,0,0]) cylinder(h=100,d=screw5);
 		translate([20,-15,(sq_d+10)/2]) rotate([90,0,0]) cylinder(h=10,d=screw5hd);
 		translate([-20,8,(sq_d+10)/2]) rotate([90,0,0]) cylinder(h=70,d=screw5);
 		translate([-20,-15,(sq_d+10)/2]) rotate([90,0,0]) cylinder(h=10,d=screw5hd);
-		translate([-20,-55.7966,(sq_d+10)/2]) rotate([90,0,0]) cylinder(h=7,d=screw5hd);
 		translate([0,11,40]) rotate([90,0,0]) cylinder(h=70,d=screw5);
 		translate([0,-15,40]) rotate([90,0,0]) cylinder(h=10,d=screw5hd);
-		translate([0,-52.31,40]) rotate([90,0,0]) cylinder(h=7,d=screw5hd);
+		if(Closed) {
+			translate([-20,-55.7966,(sq_d+10)/2]) rotate([90,0,0]) cylinder(h=7,d=screw5hd);
+			translate([0,-52.31,40]) rotate([90,0,0]) cylinder(h=7,d=screw5hd);
+		}
 	} else {
 		translate([20,8,(sq_d+10)/2]) rotate([90,0,0]) cylinder(h=70,d=screw5);
 		translate([20,-15,(sq_d+10)/2]) rotate([90,0,0]) cylinder(h=10,d=screw5hd);
 		translate([-20,5,(sq_d+10)/2]) rotate([90,0,0]) cylinder(h=70,d=screw5);
 		translate([-20,-15,(sq_d+10)/2]) rotate([90,0,0]) cylinder(h=10,d=screw5hd);
-		translate([20,-55.7966,(sq_d+10)/2]) rotate([90,0,0]) cylinder(h=7,d=screw5hd);
 		translate([0,11,40]) rotate([90,0,0]) cylinder(h=70,d=screw5);
 		translate([0,-15,40]) rotate([90,0,0]) cylinder(h=10,d=screw5hd);
-		translate([0,-52.31,40]) rotate([90,0,0]) cylinder(h=7,d=screw5hd);
+		if(Closed) {
+			translate([20,-55.7966,(sq_d+10)/2]) rotate([90,0,0]) cylinder(h=7,d=screw5hd);
+			translate([0,-52.31,40]) rotate([90,0,0]) cylinder(h=7,d=screw5hd);
+		}
 	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-module printchar(String) { // print something
-	linear_extrude(height = 1) text(String, font = "Liberation Sans",size=3.5);
+module printchar(String,Height=1.5,Size=4) { // print something
+	linear_extrude(height = Height) text(String, font = "Liberation Sans",size=Size);
 }
 
 ///////////////// end of mgn12.scad //////////////////////////////////////////////////////////////////////////////////

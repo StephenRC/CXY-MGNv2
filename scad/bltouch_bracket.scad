@@ -2,9 +2,9 @@
 // bltouchbracket.scad - bracket for a bltouch
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 // created 11/27/2016
-// last update 11/27/2016
+// last update 12/5/2016
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
+// 12/5/16 - adjusted position to for the cxy-mgnv2 with a 1.75mm e3dv6
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 include <inc/screwsizes.scad>
 use <inc/cubex.scad>
@@ -31,8 +31,9 @@ blt_screw = screw3;
 blt_mount_offset = 18;
 blt_min_tip = 6;
 blt_max_tip = 11;
+blt_bd_dia  = 14;
 //-----------------------------------------------------------------------------------------
-mount_height = 16;	// height of the mount
+mount_height = 21;	// height of the mount
 mount_width = 31;	// width of the mount
 thickness = 6;		// thickness of the mount
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,15 +50,15 @@ module adapter(BLT=0) {
 	}
 	difference() {
 		translate([0,mount_height-thickness,0]) cubeX([mount_width,thickness,mount_height+3],2); // mount base
-		translate([2.5,16,17]) rotate([90,90,0]) blt_screw_mount(thickness+2);
-		recess();
+		translate([2.5,16,17]) rotate([90,90,0]) blt_screw_mount(thickness+5);
+		body();
 	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-module recess() { // recess for the wires
-	translate([mount_width/2-5,mount_height-2,12]) cube([10,5,10]);
+module body() { // hole for the body
+	translate([mount_width/2-7,mount_height/2+1,0]) cube([blt_bd_dia,10,blt_bd_dia+10]);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -65,20 +66,20 @@ module recess() { // recess for the wires
 module ext_mount() // screw holes for mounting to extruder plate
 {
 	hull() { // slot it to make it easier to get the second screw started
-		translate([spacing+offset2+2,5,-3]) rotate([0,0,0]) cylinder(h=20,r=screw3/2,$fn=50);
-		translate([spacing+offset2-2,5,-3]) rotate([0,0,0]) cylinder(h=20,r=screw3/2,$fn=50);
+		translate([spacing+offset2+2.5,5,-3]) rotate([0,0,0]) cylinder(h=25,r=screw3/2,$fn=50);
+		translate([spacing+offset2-2,5,-3]) rotate([0,0,0]) cylinder(h=25,r=screw3/2,$fn=50);
 	}
 	hull() { // slot it to make it easier to get the second screw started
-		translate([offset2+2,5,-3]) rotate([0,0,0]) cylinder(h=20,r=screw3/2,$fn=50);
-		translate([offset2-2,5,-3]) rotate([0,0,0]) cylinder(h=20,r=screw3/2,$fn=50);
+		translate([offset2+2,5,-3]) rotate([0,0,0]) cylinder(h=25,r=screw3/2,$fn=50);
+		translate([offset2-2.5,5,-3]) rotate([0,0,0]) cylinder(h=25,r=screw3/2,$fn=50);
 	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 module blt_screw_mount(Len) {
-	translate([blt_width/2,(blt_mount_offset+8)/2+blt_mount_offset/2,-1]) cylinder(h=Len,d=blt_screw);
-	translate([blt_width/2,(blt_mount_offset+8)/2-blt_mount_offset/2,-1]) cylinder(h=Len,d=blt_screw);
+	translate([blt_width/2-1,(blt_mount_offset+8)/2+blt_mount_offset/2,-Len/2-1]) cylinder(h=Len,d=blt_screw);
+	translate([blt_width/2-1,(blt_mount_offset+8)/2-blt_mount_offset/2,-Len/2-1]) cylinder(h=Len,d=blt_screw);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
