@@ -2,11 +2,12 @@
 // powersocket.scad - uses a pc style power socket with switch
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // created 7/4/2016
-// last update 12/3/16
+// last update 12/8/16
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 8/4/16 - Added cover
 // 8/5/16 - adjusted cover & 2020 mounting holes
 // 12/3/16 - Modified for cxy-mgnv2 & added colors
+// 12/8/16 - Added relief for the the tabs that hold in the socket.
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // NOTE: Old vars uses Digi-Key Part number: CCM1666-ND
 //		 http://www.digikey.com/product-detail/en/te-connectivity-corcom-filters/1609112-3/CCM1666-ND/758835
@@ -45,6 +46,7 @@ module sock() {
 		// socket hole
 		translate([s_width/2+socket_shift,s_height/2+14+socket_s_shift,-2]) color("blue") cube([s_width,s_height,10]);
 		translate([s_width,9,-2]) cylinder(h=10,r=screw5/2); // center 2020 mounting hole
+		translate([s_width/2+socket_shift-3,s_height/2+14+socket_s_shift,2]) color("blue") cube([s_width+6,s_height,10]);
 	}
 	difference() { // top wall
 		translate([0,s_height+35,0]) color("pink") cubeX([s_width+40,5,40],2);
@@ -97,13 +99,13 @@ module testfit() { // may need adjusting if the socket size is changed
 
 module cover() {
 	difference() {
-		translate([0,15,40]) color("cyan") cubeX([s_width+40,s_height+25,5],2); // base
+		translate([0,13.9,40]) color("cyan") cubeX([s_width+40,s_height+26,5],2); // base
 		translate([5,40,30]) color("blue") cylinder(h=20,d=screw3); // left
 		translate([s_width+35,40,30]) color("red") cylinder(h=20,d=screw3); // right
 		translate([s_width,62,30]) color("yellow") cylinder(h=20,d=screw3); // top
 	}
 	difference() {
-		translate([0,15,25]) color("lightblue") cubeX([s_width+40,5,20],2); // short wall
+		translate([0,13.9,25]) color("lightblue") cubeX([s_width+40,5,20],2); // short wall
 		color("purple") hull() {
 			translate([s_width,25,30]) rotate([90,0,0]) cylinder(h=15,d=10);
 			translate([s_width,25,25]) rotate([90,0,0]) cylinder(h=15,d=10);

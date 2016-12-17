@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // mgn12.scad - corexy with mgn12 rails
 // created: 10/31/2016
-// last modified: 12/7/2016
+// last modified: 12/13/2016
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Printer name: CXY-MGNv2
 // Colors are for making it easier to edit the correct bits
@@ -31,6 +31,7 @@
 // 12/7 /16 - Labeled motor upper brackets & motor mounts L & R.  Changed the angled supports on the corner brackets
 //			  to open braces.
 // 12/8/16  - Changed all wades mounts to mount with the mgn on top.
+// 12/13/16 - Began splitting the file into the separate printer parts.
 //---------------------------------------------------------------------------------------------------------------------
 // NOTES:
 // Some of the parts need support added in the slicer.
@@ -199,78 +200,78 @@ plate(9);
 
 module plate(WhichOne) { // the modules called here are the current versions used for the printer
 	if(WhichOne == 0) {
-		xy_bearing_mounts();  // requires print support to be enabled in the slicer
-		translate([-28,-27,-41.7]) xy_bearing_spacers();
+	//	xy_bearing_mounts();  // requires print support to be enabled in the slicer
+	//	translate([-28,-27,-41.7]) xy_bearing_spacers();
 	}
 	//-------------------------------------------------------------------------------------------------------------
 	if(WhichOne == 1) {
-		feet(4); // arg is quanity to print and be multiples of 2
+	//	feet(4); // arg is quanity to print and be multiples of 2
 	}
 	//-------------------------------------------------------------------------------------------------------------
 	if(WhichOne == 2) {
-		lower_brackets_v2();
+	//	lower_brackets_v2();
 	}
 	//-------------------------------------------------------------------------------------------------------------
 	if(WhichOne == 3) {
-		motor_upper_brackets_v3(0);	// 0 - both, 1 - lower belt (R), 2 - upper belt (L), 3 - both motor mounts only
+	//	motor_upper_brackets_v3(0);	// 0 - both, 1 - lower belt (R), 2 - upper belt (L), 3 - both motor mounts only
 	}
 	//-------------------------------------------------------------------------------------------------------------
 	if(WhichOne == 4) {
-		idler_upper_brackets_v2(0);
+	//	idler_upper_brackets_v2(0);
 	}
 	//-------------------------------------------------------------------------------------------------------------
 	if(WhichOne == 5) {
-		idler_bracket_support();
-		translate([40,0,0]) idler_bracket_support();
+	//	idler_bracket_support();
+	//	translate([40,0,0]) idler_bracket_support();
 	}
 	//-------------------------------------------------------------------------------------------------------------
-	if(WhichOne == 6) {
-		tapered_bearspacer(idler_upper_spacer_height);
-		translate([25,0,0]) tapered_bearspacer(idler_upper_spacer_height);
-	}
+	//if(WhichOne == 6) {
+	//	tapered_bearspacer(idler_upper_spacer_height);
+	//	translate([25,0,0]) tapered_bearspacer(idler_upper_spacer_height);
+	//}
 	//-------------------------------------------------------------------------------------------------------------
-	if(WhichOne == 7) {
-		angled_brackets(4,1); // Qty; 0 = al angle to square or 1 = square to square
-	}
+	//if(WhichOne == 7) {
+	//	angled_brackets(4,1); // Qty; 0 = al angle to square or 1 = square to square
+	//}
 	//-------------------------------------------------------------------------------------------------------------
 	if(WhichOne == 8) {
-		x_carriage_titan_belt();
+	//	x_carriage_titan_belt();
 	//-------------------------------------------------------------------------------------------------------------
 	}
 	if(WhichOne == 9) {
-		x_carriage_e3dv6_bowden_belt(1,0);
-		translate([40,40,0]) bowden_titan();
+	//	x_carriage_e3dv6_bowden_belt(1,0);
+	//	translate([40,40,0]) bowden_titan();
 	}
 	//-------------------------------------------------------------------------------------------------------------
 	if(WhichOne == 10) {
-		x_carriage_wades_belt(3);	// for BLTouch: 0 = top mounting through hole, 1 - recess mount
+	//	x_carriage_wades_belt(3);	// for BLTouch: 0 = top mounting through hole, 1 - recess mount
 									// 2 - proximity sensor hole in psensord size
 									// 3 or higher = none
 	}
 	//-------------------------------------------------------------------------------------------------------------
 	if(WhichOne == 11) {
-		beltclamp();
+	//	beltclamp();
 	}
 	//-------------------------------------------------------------------------------------------------------------
 	if(WhichOne == 12) {
-		z_nut_carriers(); // add arg of 1 for just one; defaults to two carriers
+	//	z_nut_carriers(); // add arg of 1 for just one; defaults to two carriers
 	}
 	//-------------------------------------------------------------------------------------------------------------
 	if(WhichOne == 13) {
-		z_belt_motor_v2(1,0,0);
+	//	z_belt_motor_v2(1,0,0);
 	}
 	//-------------------------------------------------------------------------------------------------------------
 	if(WhichOne == 14) {
-		z_axis_brackets_bearing(); // 0 - one bracket; no arg defaults to two
+	//	echo("use z_axis_brackets_bearing.scad");//(); // 0 - one bracket; no arg defaults to two
 	}
 	//-------------------------------------------------------------------------------------------------------------
 	if(WhichOne == 15) {
-		z_axis_brackets_2();
+	//	z_axis_brackets_2();
 	}
 	//-------------------------------------------------------------------------------------------------------------
 	if(WhichOne == 16) { // dual hotend setup
-		x_carriage_e3dv6_bowden_belt(1,1,0);	// third arg moves second mount up/down, if down(-), supports are
-		translate([0,40,0]) bowden_titan();		// to print the dual mount, this hasn't been fully tested
+	//	x_carriage_e3dv6_bowden_belt(1,1,0);	// third arg moves second mount up/down, if down(-), supports are
+	//	translate([0,40,0]) bowden_titan();		// to print the dual mount, this hasn't been fully tested
 	}
 	//-------------------------------------------------------------------------------------------------------------
 	if(WhichOne > 16) echo("Oops! Plate Number too high");
@@ -563,10 +564,10 @@ module bowden_belt(DoClamp=0) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 module x_carriage_belt2(PosX,PosY,PosZ,Dual) {
-	difference() {
+	//difference() {
 		translate([PosX,PosY,PosZ])	belt_drive2(Dual);
-		x_carriage_belt_mountscrews(PosX,PosY+10,PosZ);
-	}
+	//	x_carriage_belt_mountscrews(PosX,PosY+10,PosZ);
+	//}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
