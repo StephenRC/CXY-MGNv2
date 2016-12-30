@@ -6,8 +6,9 @@
 /////////////////////////////////////////////////////////////////////////////////
 screw2 = 2.6;
 screw3 = 3.5;
-screw3t = 2.6;
-screw3hd = 6.5;
+screw3t = 2.6;	// drill size for tapping
+screw3hd = 6.5;	// socket head diameter
+screw3hd_t = 3; // socket head thickness
 screw4 = 4.5;
 screw4t = 3.5;
 screw4hd = 7.5;
