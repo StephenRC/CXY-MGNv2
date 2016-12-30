@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // cxy-mgn.h - variable file for the CXY-MGNv2, a corexy with mgn12 rails
 // created: 10/31/2016
-// last modified: 12/13/2016
+// last modified: 12/27/2016
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 include <inc/screwsizes.scad>
 use <inc/cubeX.scad>	// http://www.thingiverse.com/thing:112008
@@ -15,7 +15,9 @@ mgn_fh = 13;	// full height of mgn12h & rail assembly
 mgn_rh = 8;		// height of mgn12 rail
 mgn_rw = 12;	// width of mgn12 rail
 mgn_oh = 7.5;	// overhange of mgn12h on the rail
-idler_upper_spacer_height = 18;
+// next two must change by the same amount
+idler_upper_spacer_height = 15; // raise/lower idler height
+adjust_motor_height = -3; // raise/lower motor x&y mounts
 psensord = 19;	// diameter of proximity sensor (x offset is 0)
 //------------------------------------------------------------------------------------------------
 bearing_bracket_width = 38;	// width of the xy bearing bracket
@@ -142,6 +144,6 @@ e3dv6_total = ed3v6_tl + e3dv6_il + e3dv6_bl; // e3dv6 total mount height
 //-------------------------------------------------------------------------------------
 shift_ir_bowden = 5; // shift ir mount on bowden mount
 belt_adjust = 20;	// belt clamp hole position (increase to move rearward)
-belt_adjustUD = 5;	// move belt clamp up/down
+belt_adjustUD = 2;	// move belt clamp up/down
 nut3 = 6.2;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

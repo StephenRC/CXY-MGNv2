@@ -15,7 +15,7 @@ translate([40,0,0]) idler_bracket_support();
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 nozzle = 0.5;
 
-module idler_bracket_support() {	// needs support in slicer
+module idler_bracket_support() {
 	translate([6,0,0]) color("red") cubeX([sq_w-2,thickness,(one_stack*2)+idler_upper_spacer_height+thickness],2);
 	difference() {	// base
 		translate([0,-(f625z_d+thickness+5)-5,0]) color("grey")  cubeX([sq_w+10,85,thickness],2);

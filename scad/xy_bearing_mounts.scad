@@ -8,7 +8,13 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 12/17/16 - Added a version that uses a metal plat on each end and a 2020 for the x-axis.
 // 12/18/16 - Adjusted mounting hole postions on 2020 version.
+// 12/30/16 - Stiffened up rail_on_al() version and added a second screw to hold the x-axis al
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Supports needed to print rail_on_al() version
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// AL u-channel verion:
+// Remove support after printing and use two screws that go all the way through to hole the al u-channel
+//---------------------------------------------------------------------------------------------------------------------
 // Metal plate version:
 // Use main_baseDG.scad for the drill guide for the holes for the mounting.
 // Make the plate the size of the drill guide and at least 1/8" thick.
@@ -18,8 +24,8 @@
 include <cxy-mgnv2-h.scad>
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//rail_on_al();
-rail_on_2020();
+rail_on_al();
+//rail_on_2020();
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -40,7 +46,7 @@ module rail_on_2020() {
 module xy_bearing_mounts() {
 	rotate([0,90,0]) 
 		single_xy_bearing_mount(0);
-	translate([70,0,0]) rotate([0,90,0]) single_xy_bearing_mount(1);
+	translate([90,0,0]) rotate([0,90,0]) single_xy_bearing_mount(1);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -83,16 +89,17 @@ module single_xy_bearing_mount(Side=0) {
 		}
 	}
 	difference() {
-		translate([(puck_l-bearing_bracket_width)/2,-puck_w-7,-4]) cubeX([bearing_bracket_width,40,wall+1],2);
+		translate([(puck_l-bearing_bracket_width)/2,-puck_w-7,-4]) cubeX([bearing_bracket_width,40,2*wall-2],2);
 		translate([(puck_l-bearing_bracket_width)/2-3.7,-puck_w-7,1]) main_base_mounting();
 	}
 	translate([(puck_l-bearing_bracket_width)/2,puck_w+8,5]) rotate([180,0,0]) b_mount(Side,0);
+	//translate([(puck_l-bearing_bracket_width)/2,puck_w-26,1.5]) base();
 	if(Side) {
-		translate([10,-22,10]) rotate([0,-90,0]) printchar("L",2,5);
+		translate([10,-22,12]) rotate([0,-90,0]) printchar("L",2,5);
 		translate([33,34.75,-1.5]) rotate([0,90,90]) printchar("U");
 		translate([16,34.75,-1.5]) rotate([0,90,90]) printchar("D");
 	} else {
-		translate([10,-22,10]) rotate([0,-90,0]) printchar("R",2,5);
+		translate([10,-22,12]) rotate([0,-90,0]) printchar("R",2,5);
 		translate([33,34.75,-1.5]) rotate([0,90,90]) printchar("U");
 		translate([16,34.75,-1.5]) rotate([0,90,90]) printchar("D");
 	}
@@ -122,9 +129,10 @@ module al_mount() { // holds x-axis to y-axis slider
 		color("red") translate([5,5,-1]) cube([sq_w,sq_d,35]);
 	}
 	translate([0,0,22]) difference() { // extra support of x-axis
-		color("green") cubeX([sq_w+10,sq_d+5.3,36],2);
-		color("red") translate([5,5,-1]) cube([sq_w,sq_d,40]);
-		color("blue") translate([-5,puck_w/2-2,10+thickness/2]) rotate([0,90,0]) cylinder(h=sq_w+20,d=screw3);
+		color("green") cubeX([sq_w+10,sq_d+5.3,56],2);
+		color("red") translate([5,5,-1]) cube([sq_w,sq_d,60]);
+		color("blue") translate([-5,puck_w/2-2,5+thickness/2]) rotate([0,90,0]) cylinder(h=sq_w+20,d=screw3);
+		color("blue") translate([-5,puck_w/2-2,45+thickness/2]) rotate([0,90,0]) cylinder(h=sq_w+20,d=screw3);
 	}
 }
 
@@ -207,10 +215,10 @@ module bearscrews(upper) {	// bearing screw holes
 
 module base() { // base mount
 	difference() {
-		color("white") cubeX([bearing_bracket_width,one_stack*2+10,thickness],2);
+		translate([0,0,-thickness]) color("white") cubeX([bearing_bracket_width,one_stack*2+10,2*thickness],2);
 		hull() {
-			translate([18,13,-3]) cylinder(h=20,d=15,$fn=100);
-			translate([18,21,-3]) cylinder(h=20,d=15,$fn=100);
+			translate([18,13,-15]) cylinder(h=30,d=15,$fn=100);
+			translate([18,21,-15]) cylinder(h=30,d=15,$fn=100);
 		}
 	}
 }

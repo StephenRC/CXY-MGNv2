@@ -1,10 +1,12 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // x_carriage_e3dv6_bowden_belt.scad - corexy with mgn12 rails
 // created: 10/31/2016
-// last modified: 12/13/2016
+// last modified: 12/27/2016
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Printer name: CXY-MGNv2
 // Colors are for making it easier to edit the correct bits
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 12/27/16 - Adjusted e3dv6 bowden belt mounting screws and nut holes
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 include <cxy-mgnv2-h.scad>
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -67,7 +69,7 @@ module x_carriage_e3dv6_bowden(DoClamp=1,ExtendBase=0,Dual=0,Adjust=0) {
 
 module main_base(Wider=0,Longer=0,NoHoles=0) { // main part that mounts on the mgn12h
 	difference() {
-		translate([-Longer/2,0,0]) cubeX([puck_l+Longer,puck_w+Wider,thickness],2);
+		translate([-Longer/2,0,0]) cubeX([puck_l+Longer,puck_w+Wider,thickness+1],2);
 		if(!NoHoles) main_base_mounting();
 	}
 }
@@ -80,10 +82,10 @@ module main_base_mounting() {	// mounting holes to mgn12h
 	color("white") translate([(puck_l/2)+(hole_sep/2),hole_sep+3.5,-9]) cylinder(h=thickness*3,d=screw3);
 	color("black") translate([(puck_l/2)-(hole_sep/2),hole_sep+3.5,-9]) cylinder(h=thickness*3,d=screw3);
 	// countersinks
-	color("red") translate([(puck_l/2)+(hole_sep/2),3.5,thickness-1]) cylinder(h=thickness*5,d=screw3hd);
-	color("blue") translate([(puck_l/2)-(hole_sep/2),3.5,thickness-1]) cylinder(h=thickness*5,d=screw3hd);
-	color("white") translate([(puck_l/2)+(hole_sep/2),hole_sep+3.5,thickness-1]) cylinder(h=thickness*5,d=screw3hd);
-	color("black") translate([(puck_l/2)-(hole_sep/2),hole_sep+3.5,thickness-1]) cylinder(h=thickness*5,d=screw3hd);
+	color("red") translate([(puck_l/2)+(hole_sep/2),3.5,thickness+1]) cylinder(h=thickness*5,d=screw3hd);
+	color("blue") translate([(puck_l/2)-(hole_sep/2),3.5,thickness+1]) cylinder(h=thickness*5,d=screw3hd);
+	//color("white") translate([(puck_l/2)+(hole_sep/2),hole_sep+3.5,thickness-1]) cylinder(h=thickness*5,d=screw3hd);
+	//color("black") translate([(puck_l/2)-(hole_sep/2),hole_sep+3.5,thickness-1]) cylinder(h=thickness*5,d=screw3hd);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -120,7 +122,7 @@ module bowden_mount() {
 		bowden_bottom_ir_mount_hole();
 		bowden_bottom_fan_mount_hole();
 	}
-	bowden_nut_support();
+	//bowden_nut_support();
 	bowden_ir();
 	bowden_fan();
 	}
@@ -128,16 +130,16 @@ module bowden_mount() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 module bowden_screws() {
-	translate([12.5,puck_w/2-e3dv6_total/2-0.5,-5]) color("red") cylinder(h=50,d=screw4);
-	translate([35,puck_w/2-e3dv6_total/2-0.5,-5]) color("blue") cylinder(h=50,d=screw4);
+	translate([12.5,puck_w/2-e3dv6_total/2-0.5,0]) color("red") cylinder(h=50,d=screw4);
+	translate([35,puck_w/2-e3dv6_total/2-0.5,0]) color("blue") cylinder(h=50,d=screw4);
 	bowden_nuts();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-module bowden_nuts(Len=24) {
-	translate([35,puck_w/2-e3dv6_total/2-0.5,-1.5]) color("red") cylinder(h=Len,d=nut4,$fn=6);
-	translate([12.5,puck_w/2-e3dv6_total/2-0.5,-1.5]) color("blue") cylinder(h=Len,d=nut4,$fn=6);
+module bowden_nuts(Len=20) {
+	translate([35,puck_w/2-e3dv6_total/2-0.5,0]) color("red") cylinder(h=Len,d=nut4,$fn=6);
+	translate([12.5,puck_w/2-e3dv6_total/2-0.5,0]) color("blue") cylinder(h=Len,d=nut4,$fn=6);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////

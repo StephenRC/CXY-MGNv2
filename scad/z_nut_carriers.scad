@@ -1,10 +1,12 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // z_nut_carriers.scad - corexy with mgn12 rails
 // created: 10/31/2016
-// last modified: 12/13/2016
+// last modified: 12/23/2016
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Printer name: CXY-MGNv2
 // Colors are for making it easier to edit the correct bits
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 12/23/16 - added more colors for preview\
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 include <cxy-mgnv2-h.scad>
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -35,18 +37,18 @@ module z_nut_carrier() {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 module z_nut_carrier_support() {
-	translate([puck_l/2-thickness/2,20,0]) cubeX([thickness,45,22],2);
+	translate([puck_l/2-thickness/2,20,0]) color("red") cubeX([thickness,45,22],2);
 	difference() {
-		translate([0,20,0]) cubeX([puck_l,thickness,22],2);
-		translate([12,30,15]) rotate([90,0,0]) cylinder(h=thickness*2,d=screw5);
-		translate([32,30,15]) rotate([90,0,0]) cylinder(h=thickness*2,d=screw5);
+		translate([0,20,0]) color("blue") cubeX([puck_l,thickness,22],2);
+		translate([12,30,15]) rotate([90,0,0]) color("cyan") cylinder(h=thickness*2,d=screw5);
+		translate([32,30,15]) rotate([90,0,0]) color("pink") cylinder(h=thickness*2,d=screw5);
 	}
 
-	translate([puck_l/2-thickness/2,90,0]) cubeX([thickness,47,22],2);
+	translate([puck_l/2-thickness/2,90,0]) color("aqua") cubeX([thickness,47,22],2);
 	difference() {
-		translate([0,140-thickness,0]) cubeX([puck_l,thickness,22],2);
-		translate([12,145,15]) rotate([90,0,0]) cylinder(h=thickness*2,d=screw5);
-		translate([32,145,15]) rotate([90,0,0]) cylinder(h=thickness*2,d=screw5);
+		translate([0,140-thickness,0]) color("white") cubeX([puck_l,thickness,22],2);
+		translate([12,145,15]) rotate([90,0,0]) color("lavender") cylinder(h=thickness*2,d=screw5);
+		translate([32,145,15]) rotate([90,0,0]) color("plum") cylinder(h=thickness*2,d=screw5);
 	}
 }
 
@@ -54,13 +56,13 @@ module z_nut_carrier_support() {
 
 module main_base2() { // main part that mounts on the mgn12h
 	difference() {
-		cubeX([puck_l,160,thickness],2);
+		color("gray") cubeX([puck_l,160,thickness],2);
 		translate([0,64,0]) main_base_mounting();
 		// 2040 mountng holes
-		translate([12,10,-2]) cylinder(h=thickness*2,d=screw5);
-		translate([32,10,-2]) cylinder(h=thickness*2,d=screw5);
-		translate([12,150,-2]) cylinder(h=thickness*2,d=screw5);
-		translate([32,150,-2]) cylinder(h=thickness*2,d=screw5);
+		translate([12,10,-2]) color("red") cylinder(h=thickness*2,d=screw5);
+		translate([32,10,-2]) color("white") cylinder(h=thickness*2,d=screw5);
+		translate([12,150,-2]) color("blue") cylinder(h=thickness*2,d=screw5);
+		translate([32,150,-2]) color("black") cylinder(h=thickness*2,d=screw5);
 	}
 }
 
@@ -92,7 +94,7 @@ module znut2(Type=0) {	// 0 = nut, 1 = TR8 leadscrew
 module zholeCS(Type) { // countersink flange nut
 	if(Type==1) {
 		translate([outside_d/2,znut_depth,z_height/2-zshift]) 
-			rotate([90,0,0]) cylinder(h=10,d=flangenut_od,$fn=100);
+			rotate([90,0,0]) color("snow") cylinder(h=10,d=flangenut_od,$fn=100);
 	}
 	//if(Type==0) ; // nothing
 }
@@ -102,11 +104,11 @@ module zholeCS(Type) { // countersink flange nut
 module zhole(Type) {
 	if(!Type) {
 		translate([outside_d/2,thicknessZ*1.5,z_height/2-zshift])
-			rotate([90,0,0]) cylinder(h=thicknessZ*2,r = zrod/2,$fn=100);
+			rotate([90,0,0]) color("skyblue") cylinder(h=thicknessZ*2,r = zrod/2,$fn=100);
 	}
 	if(Type) {
 		translate([outside_d/2,thicknessZ*1.5,z_height/2-zshift])
-			rotate([90,0,0]) cylinder(h=thicknessZ*2,r = flangenut_d/2,$fn=100);
+			rotate([90,0,0]) color("skyblue") cylinder(h=thicknessZ*2,r = flangenut_d/2,$fn=100);
 
 	}
 }
@@ -116,17 +118,17 @@ module zhole(Type) {
 module zholesupport(Type) { // will it need extra width at the zrod?
 	difference() {
 		if(!Type) {
-			hull() {
-				translate([outside_d/2,thicknessZ,z_height/2-zshift+zadjust])
-					rotate([90,0,0]) cylinder(h=thicknessZ,r = zrod*2.5,$fn=100);
+			color("tan") hull() {
+				translate([outside_d/2,thicknessZ,z_height/2-zshift+zadjust]) rotate([90,0,0])
+					cylinder(h=thicknessZ,r = zrod*2.5,$fn=100);
 				translate([outside_d/2,thicknessZ,z_height/2-zshift]) rotate([90,0,0])
 					cylinder(h=thicknessZ,r = zrod*2.5,$fn=100);
 			}
 		}
 		if(Type) {
-			hull() {
-				translate([outside_d/2,thicknessZ,z_height/2-zshift-zadjust])
-					rotate([90,0,0]) cylinder(h=thicknessZ,r = flangenut_od/1.5,$fn=100);
+			color("tan") hull() {
+				translate([outside_d/2,thicknessZ,z_height/2-zshift-zadjust]) rotate([90,0,0])
+					cylinder(h=thicknessZ,r = flangenut_od/1.5,$fn=100);
 				translate([outside_d/2,thicknessZ,z_height/2-zshift]) rotate([90,0,0])
 					cylinder(h=thicknessZ,r = flangenut_od/1.5,$fn=100);
 			}
@@ -140,17 +142,18 @@ module zholesupport(Type) { // will it need extra width at the zrod?
 
 module znuthole(Type) {
 	if(!Type) {
-		translate([outside_d/2,znut_depth,z_height/2-zshift]) rotate([90,0,0]) cylinder(h=thicknessZ,r = znut_d/2,$fn=6);
+		translate([outside_d/2,znut_depth,z_height/2-zshift]) rotate([90,0,0])
+			color("pink") cylinder(h=thicknessZ,r = znut_d/2,$fn=6);
 	}
 	if(Type) { // make mounting screw holes
 		translate([outside_d/2+flangenut_n/2,thicknessZ+5,z_height/2-zshift])
-			rotate([90,0,0]) cylinder(h=thicknessZ+8,r = flange_screw/2);
+			rotate([90,0,0]) color("red") cylinder(h=thicknessZ+8,r = flange_screw/2);
 		translate([outside_d/2-flangenut_n/2,thicknessZ+5,z_height/2-zshift])
-			rotate([90,0,0]) cylinder(h=thicknessZ+8,r = flange_screw/2);
+			rotate([90,0,0]) color("white") cylinder(h=thicknessZ+8,r = flange_screw/2);
 		translate([outside_d/2,thicknessZ+5,z_height/2-zshift+flangenut_n/2])
-			rotate([90,0,0]) cylinder(h=thicknessZ+8,r = flange_screw/2);
+			rotate([90,0,0]) color("black") cylinder(h=thicknessZ+8,r = flange_screw/2);
 		translate([outside_d/2,thicknessZ+5,z_height/2-zshift-flangenut_n/2])
-			rotate([90,0,0]) cylinder(h=thicknessZ+8,r = flange_screw/2);
+			rotate([90,0,0]) color("blue") cylinder(h=thicknessZ+8,r = flange_screw/2);
 	}
 }
 
