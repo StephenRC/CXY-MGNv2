@@ -9,5 +9,5 @@ This is a work in progress.
 
 12/22/16 - Added a version of xy_bearing using 2020 to mount the mgn rail and using 1/4" aluminum for the mounting of both to the mgn rail.
 
-12/20/16 beefed up the xy_bearing using al u-channel.
+12/30/16 beefed up the xy_bearing using al u-channel.
 
