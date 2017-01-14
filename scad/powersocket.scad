@@ -2,22 +2,25 @@
 // powersocket.scad - uses a pc style power socket with switch
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // created 7/4/2016
-// last update 12/8/16
+// last update 1/12/17
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// 8/4/16 - Added cover
-// 8/5/16 - adjusted cover & 2020 mounting holes
-// 12/3/16 - Modified for cxy-mgnv2 & added colors
-// 12/8/16 - Added relief for the the tabs that hold in the socket.
+// 8/4/16	- Added cover
+// 8/5/16	- adjusted cover & 2020 mounting holes
+// 12/3/16	- Modified for cxy-mgnv2 & added colors
+// 12/8/16	- Added relief for the the tabs that hold in the socket.
+// 1/4/17	- Added a power switch holder for a rectangular switch
+// 1/12/17	- Added a label to the power switch mount
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // NOTE: Old vars uses Digi-Key Part number: CCM1666-ND
 //		 http://www.digikey.com/product-detail/en/te-connectivity-corcom-filters/1609112-3/CCM1666-ND/758835
 //		 ---------------------------------------------------------------------------------------------------
 //		 If the socket hole size changes, then the size & postions of the walls & socket may need adjusting
-//       The socket has screw mounting holes, after installing the socket, drill them with 2.5mm bit for M3 screws
+//       The old socket has screw mounting holes, after installing the socket, drill them with 2.5mm bit for M3 screws
 //		 Cover uses three M3 screws, use M3 tap in holes on socket
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 use <inc/cubeX.scad>	// http://www.thingiverse.com/thing:112008
 include <inc/screwsizes.scad>
+use <BABIND.TTF>	// true type font used for the label
 $fn = 50;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // vars
@@ -33,10 +36,17 @@ ag_w = 19.1+clearance;	// 3/4" AL angle width
 ag_t = 1.6+clearance;	// 3/4" AL angle thickness
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-sock();
-translate([0,8,45]) rotate([180,0,0])
-	cover();
+all();
 //testfit();	// print part of it to test fit the socket
+//switch();		// 3 args: width, length, clip thickness; defaults to 13,19.5,2
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+module all() {
+	sock();
+	translate([0,8,45]) rotate([180,0,0]) cover();
+	translate([18,95,0]) switch();		// 3 args: width, length, clip thickness; defaults to 13,19.5,2
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -125,6 +135,40 @@ module al_mount() {
 
 module al_sq_slots_m() { // square al slots
 	color("Red") translate([50,104.5-sq_w,sq_d]) cube([150,sq_w,sq_d],true);		// horz
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+module switch(s_w=13,s_l=19.5,s_t=2) {
+	difference() {
+		color("cyan") cubeX([s_l+15,s_w+15,5],2);
+		translate([s_l/2-2,s_w/2+1,-2]) color("pink") cube([s_l,s_w,8]);
+		translate([s_l/2-3.5,s_w/2+1,s_t]) color("red") cube([s_l+3,s_w,8]);
+		switch_label();
+	}
+	translate([0,-2,0]) color("blue") cubeX([5,s_l+11,s_w+15],2);
+	translate([s_l+10,-2,0]) color("salmon") cubeX([5,s_l+11,s_w+15],2);
+	translate([s_l-18,s_w+10.5,0]) color("tan") cubeX([s_l+13,5,s_w+15],2);
+	difference() {
+		translate([s_l-18,-2,0]) color("brown") cubeX([s_l+13,5,s_w+15],2);
+		switch_label();
+	}
+	difference() {
+		translate([-18,-23,0]) al_mount();
+		switch_label();
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+module switch_label() {
+	translate([5.5,3,1]) rotate([180,0,0]) printchar("POWER",2,4);
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+module printchar(String,Height=1.5,Size=4) { // print something
+	color("black") linear_extrude(height = Height) text(String, font = "Babylon Industrial:style=Normal",size=Size);
 }
 
 //////////////// end of powersocket.scad ///////////////////////////////////////////////////////////////////////////

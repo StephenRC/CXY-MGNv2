@@ -1,12 +1,14 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // cxy-mgn.h - variable file for the CXY-MGNv2, a corexy with mgn12 rails
 // created: 10/31/2016
-// last modified: 12/27/2016
+// last modified: 1/2/2017
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 include <inc/screwsizes.scad>
 use <inc/cubeX.scad>	// http://www.thingiverse.com/thing:112008
 use <inc/Nema17.scad>	// https://github.com/mtu-most/most-scad-libraries
 $fn=50;
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 1/2/17 - X & Y endstops are held by a M3 screw in the hole at the end of the MGN rail.
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 puck_l = 45.4;	// length of mgn12h
 puck_w = 27;	// width of mgn12h
@@ -18,7 +20,7 @@ mgn_oh = 7.5;	// overhange of mgn12h on the rail
 // next two must change by the same amount
 idler_upper_spacer_height = 15; // raise/lower idler height
 adjust_motor_height = -3; // raise/lower motor x&y mounts
-psensord = 19;	// diameter of proximity sensor (x offset is 0)
+psensord = 19;	// diameter of proximity sensor
 //------------------------------------------------------------------------------------------------
 bearing_bracket_width = 38;	// width of the xy bearing bracket
 f625z_d = 16;		// diameter of bearing where the belt rides
@@ -143,7 +145,7 @@ e3dv6_bl = 3;	// e3dv6 mount bottom land height
 e3dv6_total = ed3v6_tl + e3dv6_il + e3dv6_bl; // e3dv6 total mount height
 //-------------------------------------------------------------------------------------
 shift_ir_bowden = 5; // shift ir mount on bowden mount
-belt_adjust = 20;	// belt clamp hole position (increase to move rearward)
+belt_adjust = 23;	// belt clamp hole position (increase to move rearward)
 belt_adjustUD = 2;	// move belt clamp up/down
 nut3 = 6.2;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

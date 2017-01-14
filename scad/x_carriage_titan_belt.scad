@@ -1,12 +1,15 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // x_carriage_titan_belt.scad - corexy with mgn12 rails
 // created: 10/31/2016
-// last modified: 12/13/2016
+// last modified: 1/1/2017
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Printer name: CXY-MGNv2
 // Colors are for making it easier to edit the correct bits
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 1/3/16	- now uses belt_clamp.scad
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 include <cxy-mgnv2-h.scad>
+use <belt_clamp.scad>
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 x_carriage_titan_belt();
@@ -150,64 +153,6 @@ module belt_drive2(Dual=0)	// corexy
 	beltbump2(1);
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-module beltclamp() // belt clamps and adjuster parts
-{
-	translate([0,0,3.5]) belt_roundclamp();
-	translate([10,0,-0.5]) belt_adjuster();
-	translate([25,0,4]) belt_anvil();
-	translate([0,35,3.5]) belt_roundclamp();
-	translate([10,35,-0.5]) belt_adjuster();
-	translate([25,35,4]) belt_anvil();
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-module belt_adjuster()
-{
-	difference() {
-		minkowski() {
-			translate([0,0,-wall/2+4.5]) cube([8,30,9]);
-			cylinder(h = 1,r = 1,$fn=50);
-		}
-		translate([-1.5,5.5,9]) cube([11,7,3.5]);
-		translate([-1.5,16.5,9]) cube([11,7,3.5]);
-		translate([4,3,-5]) cylinder(h = 2*wall, r = screw3/2,$fn=50);
-		translate([4,26,-5]) cylinder(h = 2*wall, r = screw3/2,$fn=50);
-		translate([-5,9,4.5]) rotate([0,90,0]) cylinder(h = 2*wall, r = screw3/2,$fn=50);
-		translate([-2,9,4.5]) rotate([0,90,0]) nut(nut3,3);
-		translate([-5,20,4.5]) rotate([0,90,0]) cylinder(h = 2*wall, r = screw3/2,$fn=50);
-		translate([7,20,4.5]) rotate([0,90,0]) nut(nut3,3);
-	}
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-module belt_anvil()
-{
-	translate([0,0,-3]) rotate([0,0,90]) difference() {
-		rotate([0,90,0]) cylinder(h = 9, r = 4, $fn= 100);
-		translate([3,0,-6]) cube([15,10,10],true);
-		translate([4,0,-3]) cylinder(h = 5, r = screw3/2,$fn = 50);
-	}
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-module belt_roundclamp() // something round to let the belt smoothly move over when using the tensioner screw
-{
-	rotate([0,90,90]) difference() {
-		cylinder(h = 30, r = 4, $fn= 100);
-		translate([-6,0,3]) rotate([0,90,0])cylinder(h = 15, r = screw3/2,$fn = 50);
-		translate([-6,0,26]) rotate([0,90,0])cylinder(h = 15, r = screw3/2,$fn = 50);
-		translate([4.5,0,8]) cube([2,8,45],true); // flatten the top & bottom
-		translate([-4.5,0,8]) cube([2,8,45],true);
-	}
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 module beltbump2(Bump) { // add a little plastic at the belt clamp screw holes at the edge
 	if(Bump) {
 		difference() {	
@@ -224,9 +169,4 @@ module beltbump2(Bump) { // add a little plastic at the belt clamp screw holes a
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-module nut(Size,Length) {
-	cylinder(h=Length,d=Size,$fn=6);
-}
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
