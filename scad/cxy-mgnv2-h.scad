@@ -88,7 +88,7 @@ irreduce = 13.5; 	// hole in ir mount vertical position
 irrecess = -2;		// recess in ir mount for pin heater vertical depth
 //-----------------------------------------------------------------------------------------
 fan_spacing = 32;
-fan_offset = -6;	// adjust to align fan with extruder
+fan_offset = 10;	// adjust to align fan with extruder
 servo_spacing = 32;
 servo_offset = 20;	// adjust to move servo mount
 screw_depth = 25;
@@ -145,7 +145,7 @@ e3dv6_bl = 3;	// e3dv6 mount bottom land height
 e3dv6_total = ed3v6_tl + e3dv6_il + e3dv6_bl; // e3dv6 total mount height
 //-------------------------------------------------------------------------------------
 shift_ir_bowden = 5; // shift ir mount on bowden mount
-belt_adjust = 23;	// belt clamp hole position (increase to move rearward)
+belt_adjust = 25;	// belt clamp hole position (increase to move rearward)
 belt_adjustUD = 2;	// move belt clamp up/down
 nut3 = 6.2;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
