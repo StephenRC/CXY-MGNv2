@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // x_carriage_e3dv6_bowden_belt.scad - corexy with mgn12 rails
 // created: 10/31/2016
-// last modified: 1/9/2017
+// last modified: 1/25/2017
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Printer name: CXY-MGNv2
 // Colors are for making it easier to edit the correct bits
@@ -10,6 +10,7 @@
 // 1/3/17	- moved belt clamp 3mm to rear, adjusted hole in belt_anvil(), now uses belt_clamp.scad
 //			  fixed dual extruder z adjustment, added wire chain mountings holes to belt_drive2(), they're M4 tap size
 // 1/9/17	- Adjusted single extruder wire chain mount
+// 1/25/17	- Opened up the supports on the titan extruder frame mount
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 include <cxy-mgnv2-h.scad>
 use <belt_clamp.scad>
@@ -31,8 +32,8 @@ module x_carriage(DoClamps=1,Dual=0,Titan=1) {
 
 module x_carriage_e3dv6_bowden_belt(DoClamps=0,Dual=0,Adjust=0) { // mkae these held together by screws
 	translate([50,0,0]) x_carriage_e3dv6_bowden(Dual,8,Dual,Adjust);
-	translate([0,40,0]) rotate([0,0,0]) x_carriage_belt2(50,-45,0,Dual);
-	translate([15,45,0]) rotate([0,0,0]) bowden_belt(DoClamps);
+	translate([0,40,0]) x_carriage_belt2(50,-45,0,Dual);
+	translate([15,45,0]) bowden_belt(DoClamps);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -322,11 +323,22 @@ module titanmotor(ShiftUp=0) {
 		translate([-1,0,0]) color("red") cubeX([4,50,50],2);
 		translate([-3,50,4]) rotate([56,0,0]) cube([7,50,70]);
 		translate([-4,-4,36]) cube([wall,wall,wall]);
+		titanmotor_slots();
 	}
 	difference() { // rear support
 		translate([49,0,0]) color("blue") cubeX([4,50,50],2);
 		translate([47,50,4]) rotate([56,0,0]) cube([7,50,70]);
 		translate([47,-4,36]) cube([wall,wall,wall]);
+		titanmotor_slots();
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+module titanmotor_slots() {
+	color("cyan") hull() {
+		translate([-10,33,6]) rotate([0,90,0]) cylinder(h=70,d=5,$fn=100);
+		translate([-10,13,12]) rotate([0,90,0]) cylinder(h=70,d=16,$fn=100);
 	}
 }
 
