@@ -3,6 +3,8 @@ A CoreXY printer using MGN12 rails and 1/2" plywood aluminum channel from a hard
 
 This is a work in progress.
 
+https://creativecommons.org/licenses/by-sa/3.0/
+
 12/13/16 - Spilt mgn12.scad into separate files for the various parts.
 
 12/17/16 - It appears the x axis ends are tilting while moving.  May need to change to 2020 for the mgn rail mounts and metal end plates.
