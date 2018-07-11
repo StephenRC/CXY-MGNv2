@@ -1,12 +1,14 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // motor_upper_brackets_v3.scad - corexy with mgn12 rails
 // created: 10/31/2016
-// last modified: 12/27/2016
+// last modified: 2/17/17
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Printer name: CXY-MGNv2
 // Colors are for making it easier to edit the correct bits
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 12/27/16 - made height adjustable
+// 2/17/17	- changed motor mount diagonal supports to triangle with a rounded triangle hole for better stiffness
+//			- thickened up the motor & mount plates of the motor mounts
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 include <cxy-mgnv2-h.scad>
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -39,8 +41,8 @@ module motor_upper_brackets_v3(Select=0) { // 0 - both, 1 - lower belt, 2 - uppe
 		translate([128,-35,2.5]) rotate([0,0,-180]) motor_mount_v3(1);
 	}
 	if(Select==3) {	// just both motor mounts
-		translate([128,-35,2.5]) rotate([0,0,-180]) motor_mount_v3(1);
-		translate([12.5,-35,2.5]) rotate([0,0,-180]) motor_mount_v3(0);
+		translate([70,0,2.5]) rotate([0,0,-180]) motor_mount_v3(1);
+		translate([0,0,0.5]) rotate([0,0,-180]) motor_mount_v3(0);
 	}
 }
 
@@ -132,44 +134,58 @@ module motor_mount_v3_screws(Left,Height=adjust_motor_height) {
 module motor_mount_v3(Left=0) {
 	if(!Left) { // right
 		difference() {
-			cubeX([59,59,5],radius=2,center=true);
-			translate([0,0,-4]) rotate([0,0,45])  NEMA17_x_holes(7, 2);
+			translate([0,0,0.5]) cubeX([59,59,6],radius=2,center=true);
+			translate([0,2,-4]) rotate([0,0,45])  NEMA17_x_holes(9, 2);
 		}
-		diag_side();
+		diag_side(Left);
 		difference() {
-			translate([0,-27,24+mgn_rh/2-adjust_motor_height/2]) color("blue") cubeX([59,5,50+mgn_rh-adjust_motor_height],radius=2,center=true);
+			translate([0,-25.5,24+mgn_rh/2-adjust_motor_height/2])
+				color("blue") cubeX([59,8,50+mgn_rh-adjust_motor_height],radius=2,center=true);
 			translate([0,0,mgn_rh]) motor_mount_v3_screws(Left,adjust_motor_height);
 		}
-		translate([0,-25,20]) rotate([-90,0,0]) printchar("R",2,5);
+		translate([-8,-22,30]) rotate([-90,0,0]) printchar("Right",2,5);
 	} else { // left
 		difference() {
-			cubeX([59,59,5],radius=2,center=true);
-			translate([0,0,-4]) rotate([0,0,45])  NEMA17_x_holes(7, 2);
+			translate([0,0,0.5]) cubeX([59,59,6],radius=2,center=true);
+			translate([0,2,-4]) rotate([0,0,45])  NEMA17_x_holes(9, 2);
 		}
+		diag_side(Left);
 		difference() {
-			diag_side();
+			translate([0,-25.5,28+mgn_rh/2-adjust_motor_height/2])
+				color("blue") cubeX([59,8,60+mgn_rh-adjust_motor_height],radius=2,center=true);
 			translate([0,0,mgn_rh+10]) motor_mount_v3_screws(Left,adjust_motor_height);
 		}
-		difference() {
-			translate([0,-27,28+mgn_rh/2-adjust_motor_height/2]) color("blue") cubeX([59,5,60+mgn_rh-adjust_motor_height],radius=2,center=true);
-			translate([0,0,mgn_rh+10]) motor_mount_v3_screws(Left,adjust_motor_height);
-		}
-		translate([0,-25,30]) rotate([-90,0,0]) printchar("L",2,5);
+		translate([-6,-22,30]) rotate([-90,0,0]) printchar("Left",2,5);
 	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-module diag_side() {
+module diag_side(Left) {
 	difference() {
-		translate([24.4,-33,35]) rotate([-45,0,0]) color("red") cubeX([5,60,10],2);
-		translate([23,-33.5,-10]) cube([10,60,10],2);
-		translate([23,-36.5,6]) cube([10,10,60],2);
+		translate([24.5,-66,10]) rotate([-45,0,0]) color("red") cubeX([5,75,60],2);
+		translate([23,-32.5,-49.5]) cube([10,60,50],2);
+		translate([23,-86.5,-30]) cube([10,60,90],2);
+		color("cyan") hull() {
+			translate([22,-15,28]) rotate([90,0,90]) cylinder(h=10,d=8,$fn=100);
+			translate([22,-15,10]) rotate([90,0,90]) cylinder(h=10,d=8,$fn=100);
+			translate([22,3,10]) rotate([90,0,90]) cylinder(h=10,d=8,$fn=100);
+		}
+		if(Left) translate([0,0,mgn_rh+10]) motor_mount_v3_screws(Left,adjust_motor_height);
+		else translate([0,0,mgn_rh]) motor_mount_v3_screws(Left,adjust_motor_height);
 	}
 	difference() {
-		translate([-29.4,-33,36]) rotate([-45,0,0]) color("cyan") cubeX([5,60,10],2);
-		translate([-32,-30.5,-10]) cube([10,50,10],2);
-		translate([-32,-36,45]) rotate([0,90,0]) cube([50,10,10],2);
+		translate([-29.5,-66,10]) rotate([-45,0,0]) color("cyan") cubeX([5,75,60],2);
+		translate([-32,-32.5,-49.5]) cube([10,60,50],2);
+		translate([-32,-87,52]) rotate([0,90,0]) cube([90,60,10],2);
+		color("red") hull() {
+			translate([-32,-15,28]) rotate([90,0,90]) cylinder(h=10,d=8,$fn=100);
+			translate([-32,-15,10]) rotate([90,0,90]) cylinder(h=10,d=8,$fn=100);
+			translate([-32,3,10]) rotate([90,0,90]) cylinder(h=10,d=8,$fn=100);
+		}
+		if(Left) translate([0,0,mgn_rh+10]) motor_mount_v3_screws(Left,adjust_motor_height);
+		else translate([0,0,mgn_rh]) motor_mount_v3_screws(Left,adjust_motor_height);
 	}
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
