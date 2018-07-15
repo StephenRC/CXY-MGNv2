@@ -13,13 +13,12 @@ idler_upper_brackets_v2();
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-module idler_upper_brackets_v2(Spacer_H = 0) {
+module idler_upper_brackets_v2() {
 	single_upper_bracket_v2();
 	difference() {
 		translate([0,4,23.3]) rotate([180,0,0]) color("green") bearing_bracket(0,b_posY-2);
 		translate([100,100,-0.5]) rotate([0,0,180]) al_sq_slots2();
 	}
-	if(Spacer_H) translate([50,-13,0]) tapered_bearspacer(Spacer_H);
 	translate([140,0,0]) {
 		translate([-10,-1.2,0]) rotate([0,0,90]) single_upper_bracket_v2(0);
 	}
@@ -27,7 +26,6 @@ module idler_upper_brackets_v2(Spacer_H = 0) {
 		translate([106,3,23.3]) rotate([180,0,0]) color("blue")  bearing_bracket(0,b_posY-2);
 		translate([110,98.8,-0.5]) rotate([0,0,-90]) al_sq_slots2();
 	}
-	if(Spacer_H) translate([80,-13,0]) tapered_bearspacer(Spacer_H);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

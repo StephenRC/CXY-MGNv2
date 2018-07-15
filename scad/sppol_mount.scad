@@ -24,7 +24,7 @@ module spool() {
 
 module mount() {
 	difference() {
-		translate([sq_w+12,sq_w+10,sq_d+8]) rotate([90,0,0]) cylinder(h=sq_w+10,d=30,$fn=100);
+		translate([sq_w+12,sq_w+10,sq_d+8]) rotate([90,0,0]) color("cyan") cylinder(h=sq_w+10,d=30,$fn=100);
 		al_sq_slots_m();
 		screw_hole();
 	}

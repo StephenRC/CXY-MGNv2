@@ -48,9 +48,9 @@ iradapter(0);  // 0 side mount; 1 top mount
 
 module iradapter(Top) {
 	difference() {
-		if(!Top) cubeX([mount_width,mount_height+Side_Mount_Len,thickness],2); // mount base
+		if(!Top) color("cyan") cubeX([mount_width,mount_height+Side_Mount_Len,thickness],2); // mount base
 		else
-			cubeX([mount_width,mount_height,thickness],2); // mount base
+			color("blue") cubeX([mount_width,mount_height,thickness],2); // mount base
 		reduce(Top);
 		block_mount(Top);
 		ext_mount(Top);
@@ -61,15 +61,15 @@ module iradapter(Top) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 module recess(Top) { // make space for the thru hole pin header
-	if(Top) translate([hole1x+1.5+offset,hole1y+4+(mount_height/4),notch_d]) cube([15.5,10,5]);
-	else translate([hole1x+1.5+offset,hole1y+4+(mount_height/4)+Side_Mount_Len,notch_d]) cube([15.5,10,5]);
+	if(Top) translate([hole1x+1.5+offset,hole1y+4+(mount_height/4),notch_d]) color("black") cube([15.5,10,5]);
+	else translate([hole1x+1.5+offset,hole1y+4+(mount_height/4)+Side_Mount_Len,notch_d]) color("gray") cube([15.5,10,5]);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 module reduce(Top) { // reduce amount of plastic used
-	if(Top) translate([15,mount_height-18.5+shift_reduce,-1]) cylinder(h=10,r = mount_width/4);
-	else translate([15,mount_height-18.5+shift_reduce+Side_Mount_Len/3,-1]) cylinder(h=10,r = mount_width/4);
+	if(Top) translate([15,mount_height-18.5+shift_reduce,-1]) color("red") cylinder(h=10,r = mount_width/4);
+	else translate([15,mount_height-18.5+shift_reduce+Side_Mount_Len/3,-1]) color("purple") cylinder(h=10,r = mount_width/4);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -78,11 +78,11 @@ module block_mount(Top) // mounting screw holes for the ir sensor
 {
 	//mounting screw holes
 	if(Top) {
-		translate([hole1x+offset,mounty,-5]) rotate([0,0,0]) cylinder(h=20,r=screw3t/2,$fn=50);
-		translate([hole2x+offset,mounty,-5]) rotate([0,0,0]) cylinder(h=20,r=screw3t/2,$fn=50);
+		translate([hole1x+offset,mounty,-5]) rotate([0,0,0]) color("blue") cylinder(h=20,r=screw3t/2,$fn=50);
+		translate([hole2x+offset,mounty,-5]) rotate([0,0,0]) color("red") cylinder(h=20,r=screw3t/2,$fn=50);
 	} else {
-		translate([hole1x+offset,mounty+Side_Mount_Len,-5]) rotate([0,0,0]) cylinder(h=20,r=screw3t/2,$fn=50);
-		translate([hole2x+offset,mounty+Side_Mount_Len,-5]) rotate([0,0,0]) cylinder(h=20,r=screw3t/2,$fn=50);
+		translate([hole1x+offset,mounty+Side_Mount_Len,-5]) rotate([0,0,0]) color("yellow") cylinder(h=20,r=screw3t/2,$fn=50);
+		translate([hole2x+offset,mounty+Side_Mount_Len,-5]) rotate([0,0,0]) color("pink") cylinder(h=20,r=screw3t/2,$fn=50);
 	}
 }
 
@@ -91,14 +91,14 @@ module block_mount(Top) // mounting screw holes for the ir sensor
 module ext_mount(Top) // screw holes for mounting to extruder plate
 {
 	if(Top) {	// AL extruder plate
-		translate([27,15,3]) rotate([90,0,0]) cylinder(h=20,r=screw3t/2,$fn=50);
-		translate([3,15,3]) rotate([90,0,0]) cylinder(h=20,r=screw3t/2,$fn=50);
+		translate([27,15,3]) rotate([90,0,0]) color("green") cylinder(h=20,r=screw3t/2,$fn=50);
+		translate([3,15,3]) rotate([90,0,0]) color("purple") cylinder(h=20,r=screw3t/2,$fn=50);
 	} else { // printed extruder plate
-		hull() { // slot it to make it easier to get the second screw started
+		color("red") hull() { // slot it to make it easier to get the second screw started
 			translate([spacing+offset2+2,5,-3]) rotate([0,0,0]) cylinder(h=20,r=screw3/2,$fn=50);
 			translate([spacing+offset2-2,5,-3]) rotate([0,0,0]) cylinder(h=20,r=screw3/2,$fn=50);
 		}
-		hull() { // slot it to make it easier to get the second screw started
+		color("blue") hull() { // slot it to make it easier to get the second screw started
 			translate([offset2+2,5,-3]) rotate([0,0,0]) cylinder(h=20,r=screw3/2,$fn=50);
 			translate([offset2-2,5,-3]) rotate([0,0,0]) cylinder(h=20,r=screw3/2,$fn=50);
 	

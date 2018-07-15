@@ -39,9 +39,9 @@ AL_thickness = 6.35;	// set to thickness of 1/4" al used for xy_spacer
 xy_spacer_2020_thickness = 9.625 - AL_thickness;	// amount needed to get xy_bearings in correct position
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//main_baseDG(0,0);	// set first arg to 0 for one drill guide or 1 for two sets
+main_baseDG(0,0);	// set first arg to 0 for one drill guide or 1 for two sets
 					// second arg to 1 to test fit the parts
-spacers_only();	// just the spacers
+//spacers_only();	// just the spacers
 //assembly();		// show all the parts together on one side, but with no screws
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

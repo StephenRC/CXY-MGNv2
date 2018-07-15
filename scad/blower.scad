@@ -47,37 +47,38 @@ screw_depth = 25;
 //rotate([90,0,0]) adapter();
 //rotate([90,0,0]) adapter2();
 //adapter3();
-//translate([0,-20,0])
-//	adaptertitan();
-//translate([0,45,0])
-//	adaptertitan2();
-//translate([-15,0,0]) FanDuct();
-//translate([-45,0,0]) FanDuct();
-adapter_bowden();
+translate([0,-20,0])
+	adaptertitan();
+translate([0,45,0])
+	adaptertitan2();
+translate([-15,0,0]) color("black") FanDuct();
+translate([-45,0,0]) color("gray") FanDuct();
+//adapter_bowden();
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 module adapter_bowden() {
 	difference() {
-		cubeX([Mwidth4,Mheight3,thickness3],2);
+		
+		color("cyan") cubeX([Mwidth4,Mheight3,thickness3],2);
 		translate([Mwidth4/2-fan_spacing/2,10,thickness3/2]) fanmountingholes();
 	}
-	translate([Mwidth4/2-Fwidth/2,-Fwidth+9,0]) cubeX([Fwidth,Fwidth-6,thickness3]);
+	translate([Mwidth4/2-Fwidth/2,-Fwidth+9,0]) color("blue") cubeX([Fwidth,Fwidth-6,thickness3]);
 	translate([Mwidth4/2-Fwidth*2-0.5,-4.55,0]) rotate([90,0,0]) fanmounttitan();
 }
 
 /////////////////////////////////////////////////////////////////////////
 
 module fanmountingholes() {
-	rotate([90,0,0]) cylinder(h=20,d=screw3);
-	translate([fan_spacing,0,0]) rotate([90,0,0]) cylinder(h=20,d=screw3);
+	rotate([90,0,0]) color("red") cylinder(h=20,d=screw3);
+	translate([fan_spacing,0,0]) rotate([90,0,0]) color("gray") cylinder(h=20,d=screw3);
 }
 
 //////////////////////////////////////////////////////////////////////////////
 
 module adapter() {
 	difference() {
-		cube([Mwidth,Mheight,thickness]); 
+		color("green") cube([Mwidth,Mheight,thickness]); 
 		ext_mount();
 	}
 	fanmount();
@@ -85,7 +86,7 @@ module adapter() {
 
 module adapter2() {
 	difference() {
-		cube([Mwidth,Mheight,thickness]);
+		color("pink") cube([Mwidth,Mheight,thickness]);
 		ext_mount();
 	}
 	fanmount2();
@@ -93,90 +94,90 @@ module adapter2() {
 
 module fanmount() { // mount the blower
 	difference() {
-		translate([Mwidth/2-3,0,thickness]) cube([Fwidth,thickness,Fheight]);
-		translate([Mwidth/2,-1,Fheight-Fspace/2+1]) cube([Fspace,thickness+2,Fspace]);
-		translate([Mwidth/2-5,thickness/2,Fheight]) rotate([0,90,0]) cylinder(h=Fwidth*2,r=screw4/2,$fn=50);
+		translate([Mwidth/2-3,0,thickness]) color("white") cube([Fwidth,thickness,Fheight]);
+		translate([Mwidth/2,-1,Fheight-Fspace/2+1]) color("red") cube([Fspace,thickness+2,Fspace]);
+		translate([Mwidth/2-5,thickness/2,Fheight]) rotate([0,90,0]) color("gray") cylinder(h=Fwidth*2,r=screw4/2,$fn=50);
 	}
 }
 
 module fanmount2() { // mount the blower
 	difference() {
-		translate([Mwidth/2-2.5,0,thickness]) cube([Fwidth,thickness,Fheight*2]);
-		translate([Mwidth/2,-1,Fheight+Fspace/2]) cube([Fspace,thickness+2,Fspace]);
-		translate([Mwidth/2-5,thickness/2,Fheight*2]) rotate([0,90,0]) cylinder(h=Fwidth*2,r=screw4/2,$fn=50);
-		translate([Mwidth/2-5,thickness-1,Mheight-0.9]) rotate([-20,0,0]) cube([Fwidth+5,thickness,Fheight]);
+		translate([Mwidth/2-2.5,0,thickness]) color("purple") cube([Fwidth,thickness,Fheight*2]);
+		translate([Mwidth/2,-1,Fheight+Fspace/2]) color("black") cube([Fspace,thickness+2,Fspace]);
+		translate([Mwidth/2-5,thickness/2,Fheight*2]) rotate([0,90,0]) color("red") cylinder(h=Fwidth*2,r=screw4/2,$fn=50);
+		translate([Mwidth/2-5,thickness-1,Mheight-0.9]) rotate([-20,0,0]) color("gray") cube([Fwidth+5,thickness,Fheight]);
 	}
 }
 
 module ext_mount() {
 	//mounting screw holes
-	translate([8,thickness+2,thickness/2]) rotate([90,0,0]) cylinder(h=20,r=screw3t/2,$fn=50);
-	translate([32,thickness+2,thickness/2]) rotate([90,0,0]) cylinder(h=20,r=screw3t/2,$fn=50);
+	translate([8,thickness+2,thickness/2]) rotate([90,0,0]) color("red") cylinder(h=20,r=screw3t/2,$fn=50);
+	translate([32,thickness+2,thickness/2]) rotate([90,0,0]) color("gray") cylinder(h=20,r=screw3t/2,$fn=50);
 }
 
 module adapter3() {
 	difference() {
-		cube([Mwidth3,Mheight3,thickness3]);
+		color("black") cube([Mwidth3,Mheight3,thickness3]);
 		ext_mount3();
 	}
 	translate([6,7,0]) rotate([90,0,0]) fanmount3();
 }
 
 module ext_mount3() {	//mounting screw holes
-	translate([5,thickness3+2,thickness3/2]) rotate([90,0,0]) cylinder(h=20,r=screw3/2,$fn=50);
-	translate([21,thickness3+2,thickness3/2]) rotate([90,0,0]) cylinder(h=20,r=screw3/2,$fn=50);
+	translate([5,thickness3+2,thickness3/2]) rotate([90,0,0]) color("cyan") cylinder(h=20,r=screw3/2,$fn=50);
+	translate([21,thickness3+2,thickness3/2]) rotate([90,0,0]) color("blue") cylinder(h=20,r=screw3/2,$fn=50);
 }
 
 module fanmount3() { // mount the blower
 	difference() {
-		translate([Mwidth3/2+2,0,thickness3]) cube([Fwidth,thickness3*3.5,Fheight3*2.5]);
-		translate([Mwidth3/2+5,-1,Fheight3+1]) cube([Fspace,thickness3*3.5+2,Fspace*2]);
-		translate([Mwidth3/2-5,thickness3/2+14,Fheight3*2+6]) rotate([0,90,0]) cylinder(h=Fwidth*2,r=screw4/2,$fn=50);
+		translate([Mwidth3/2+2,0,thickness3]) color("lightgreen") cube([Fwidth,thickness3*3.5,Fheight3*2.5]);
+		translate([Mwidth3/2+5,-1,Fheight3+1]) color("green") cube([Fspace,thickness3*3.5+2,Fspace*2]);
+		translate([Mwidth3/2-5,thickness3/2+14,Fheight3*2+6]) rotate([0,90,0]) color("gray") cylinder(h=Fwidth*2,r=screw4/2,$fn=50);
 	}
 }
 
 module adaptertitan() { // stepper motor side
 	translate([0,Mheight3,0]) rotate([0,0,180]) difference() {
-		cubeX([Mwidth3,Mheight3,thickness3],2);
+		color("cyan") cubeX([Mwidth3,Mheight3,thickness3],2);
 		translate([0,-25,48]) rotate([90,0,90]) mountingholes();
 	}
-	translate([-42,-Fwidth+9,0]) cubeX([Fwidth,Fwidth-6,thickness3]);
+	translate([-42,-Fwidth+9,0]) color("purple") cubeX([Fwidth,Fwidth-6,thickness3]);
 	translate([-74,-4.55,0]) rotate([90,0,0]) fanmounttitan();
 }
 
 module adaptertitan2() { // extruder cooling fan side
 	translate([0,Mheight3,0]) rotate([0,0,180]) difference() {
-		cubeX([Mwidth3,Mheight3+4,thickness3],2);
+		color("black") cubeX([Mwidth3,Mheight3+4,thickness3],2);
 		translate([0,-25,48]) rotate([90,0,90]) mountingholes();
-		translate([9,-9,-2]) cubeX([35,Fwidth-6,thickness3+4],2);
+		translate([9,-9,-2]) color("gray") cubeX([35,Fwidth-6,thickness3+4],2);
 	}
 	difference() {
 		translate([-68,6,0]) rotate([90,0,0]) fanmounttitan(14);
-		translate([-45,0,-2]) cubeX([35,Fwidth-6,thickness3+4],2);
-		translate([-45,5,0.5]) rotate([40,0,0]) cubeX([35,Fwidth-6,thickness3+2],2);
+		translate([-45,0,-2]) color("cyan") cubeX([35,Fwidth-6,thickness3+4],2);
+		translate([-45,5,0.5]) rotate([40,0,0]) color("blue") cubeX([35,Fwidth-6,thickness3+2],2);
 	}
 }
 
 module fanmounttitan(Add=0) { // mount the blower
 	difference() {
-		translate([Mwidth3/2+2,0,thickness3-1]) cubeX([Fwidth,thickness3*2.7,Fheight3*1.7+Add]);
-		translate([Mwidth3/2+5,-1,Fheight3]) cubeX([Fspace,thickness3*3.5+2,Fspace*2]);
-		translate([Mwidth3/2,13,Fheight3*2-3+Add]) rotate([0,90,0]) cylinder(h=Fwidth*2,r=screw4/2,$fn=50);
+		translate([Mwidth3/2+2,0,thickness3-1]) color("yellow") cubeX([Fwidth,thickness3*2.7,Fheight3*1.7+Add]);
+		translate([Mwidth3/2+5,-1,Fheight3]) color("white") cubeX([Fspace,thickness3*3.5+2,Fspace*2]);
+		translate([Mwidth3/2,13,Fheight3*2-3+Add]) rotate([0,90,0]) color("black") cylinder(h=Fwidth*2,r=screw4/2,$fn=50);
 	}
 }
 
 module mountingholes(Inner=0) {	// mounting holes (copied from fan() & servo() modules in corexy-x-carriage.scad)
 	// outer holes
 	translate([extruder/2-12,-heightE/2 - 1.8*wall,heightE - extruder_back - servo_spacing/2 - servo_offset])
-		rotate([0,90,0]) cylinder(h = depthE+screw_depth,r = screw3/2,$fn=50);
+		rotate([0,90,0]) color("red") cylinder(h = depthE+screw_depth,r = screw3/2,$fn=50);
 	translate([extruder/2-12,-heightE/2 - 1.8*wall,heightE - extruder_back + fan_spacing/2 + fan_offset])
-		rotate([0,90,0]) cylinder(h = depthE+screw_depth,r = screw3/2,$fn=50);
+		rotate([0,90,0]) color("blue") cylinder(h = depthE+screw_depth,r = screw3/2,$fn=50);
 	// inner holes
 	if(Inner) {
 		translate([extruder/2-12,-heightE/2 - 1.8*wall,heightE - extruder_back + servo_spacing/2 - servo_offset])
-			rotate([0,90,0]) cylinder(h = depthE+screw_depth,r = screw3/2,$fn=50);
+			rotate([0,90,0]) color("yellow") cylinder(h = depthE+screw_depth,r = screw3/2,$fn=50);
 		translate([extruder/2-12,-heightE/2 - 1.8*wall,heightE - extruder_back - fan_spacing/2 + fan_offset])
-			rotate([0,90,0]) cylinder(h = depthE+screw_depth,r = screw3/2,$fn=50);
+			rotate([0,90,0]) color("gray") cylinder(h = depthE+screw_depth,r = screw3/2,$fn=50);
 	}
 }
 

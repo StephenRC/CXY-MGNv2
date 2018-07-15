@@ -31,8 +31,8 @@ module idler_bracket_support() {
 	translate([(sq_w+10)/2,-(f625z_d+thickness-3),0]) tapered_bearspacer(idler_upper_spacer_height);
 	translate([(sq_w+10)/2,-(f625z_d+thickness-3),(one_stack*2)+idler_upper_spacer_height-3]) bearspacer(4);
 	//  test fit two one_stack sets minus 3mm for the extra washers in the var
-	//translate([(sq_w+10)/2,-(f625z_d+thickness-6),(one_stack*2)+idler_upper_spacer_height-23.6])
-	//	cylinder(h=one_stack*2-3,d=screw8);
+	%translate([(sq_w+10)/2,-(f625z_d+thickness-3),(one_stack*2)+idler_upper_spacer_height-23.6])
+		cylinder(h=one_stack*2-3,d=screw8);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

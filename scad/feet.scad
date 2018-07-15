@@ -17,16 +17,16 @@ module feet(Qty=4) {
 	for(i=[0:(Qty/2-1)]) {
 		translate([i*40,0,0]) {
 			difference() {
-				cylinder(h=15,d1=35,d2=25,$fn=100);
-				translate([0,0,10]) cube([sq_w,sq_d,11],true); // al slot
+				color("cyan") cylinder(h=15,d1=35,d2=25,$fn=100);
+				translate([0,0,10]) color("blue") cube([sq_w,sq_d,11],true); // al slot
 			}
 		}
 	}
 	for(i=[0:(Qty/2-1)]) {
 		translate([i*40,40,0]) {
 			difference() {
-				cylinder(h=15,d1=35,d2=25,$fn=100);
-				translate([0,0,10]) cube([sq_w,sq_d,11],true); // al slot
+				color("red") cylinder(h=15,d1=35,d2=25,$fn=100);
+				translate([0,0,10]) color("yellow") cube([sq_w,sq_d,11],true); // al slot
 			}
 		}
 	}

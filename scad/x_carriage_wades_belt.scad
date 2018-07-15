@@ -12,7 +12,7 @@ include <cxy-mgnv2-h.scad>
 use <belt_clamp.scad>
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-x_carriage_wades_belt(3);	// for BLTouch: 0 = top mounting through hole, 1 - recess mount
+x_carriage_wades_belt(2);	// for BLTouch: 0 = top mounting through hole, 1 - recess mount
 							// 2 - proximity sensor hole in psensord size
 							// 3 or higher = none
 translate([45,-20,-4]) beltclamp();
@@ -71,19 +71,19 @@ module x_carriage_wades(recess=0,Length=0) // bolt-on extruder platform, works f
 		translate([0,26,41+wall/2]) rotate([90,0,0]) fan();
 		// BLTouch mounting holes
 		if(recess == 1) {	// dependent on the hotend, for mounting under the extruder plate
-			translate([-bltl/2+3,bltw/2+3,bltdepth]) minkowski() { // depression for BLTouch
+			translate([-bltl/2+3,bltw/2,bltdepth]) minkowski() { // depression for BLTouch
 				// it needs to be deep enough for the retracted pin not to touch bed
 				cube([bltl-6,bltw-6,wall]);
 				cylinder(h=1,r=3,$fn=100);
 			}
-			translate([-bltl/2+8,bltw/2,-5]) cube([bltd,bltd+1,wall+3]); // hole for BLTouch
-			translate([bltouch/2,16,-10]) cylinder(h=25,r=screw2/2,$fn=100);
-			translate([-bltouch/2,16,-10]) cylinder(h=25,r=screw2/2,$fn=100);
+			translate([-bltl/2+8,bltw/2-2,-5]) cube([bltd,bltd+1,wall+3]); // hole for BLTouch
+			translate([bltouch/2,14,-10]) cylinder(h=25,r=screw2/2,$fn=100);
+			translate([-bltouch/2,14,-10]) cylinder(h=25,r=screw2/2,$fn=100);
 		}
 		if(recess == 0) {	// for mounting on top of the extruder plate
-			translate([-bltl/2+8,bltw/2,-5]) cube([bltd,bltd+1,wall+3]); // hole for BLTouch
-			translate([bltouch/2,16,-10]) cylinder(h=25,r=screw2/2,$fn=100);
-			translate([-bltouch/2,16,-10]) cylinder(h=25,r=screw2/2,$fn=100);
+			translate([-bltl/2+8,bltw/2-2,-5]) cube([bltd,bltd+1,wall+3]); // hole for BLTouch
+			translate([bltouch/2,14,-10]) cylinder(h=25,r=screw2/2,$fn=100);
+			translate([-bltouch/2,14,-10]) cylinder(h=25,r=screw2/2,$fn=100);
 		}
 		if(recess == 2) { // proximity sensor
 			translate([0,10,-6]) cylinder(h=wall*2,r=psensord/2,$fn=50);
