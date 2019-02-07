@@ -21,7 +21,7 @@ module z_axis_brackets_bearing(Qty_of_2=1) {
 	translate([37,37,-10.9]) lockring();
 	if(Qty_of_2) {
 		translate([-40,0,0]) {
-			mirror() single_z_axis_bracket();
+			mirror([0,0,0]) single_z_axis_bracket();
 			translate([-34,0,8.4]) rotate([0,180,90]) bearing_mount_v2(0);
 			translate([-37,37,-10.9]) lockring();
 		}
